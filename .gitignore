@@ -1,0 +1,28 @@
+# Backup files
+backup/
+backuo/
+*.bak
+*~
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Compressed files
+*.zip
+*.rar
+*.7z
+
+# Logs
+*.log
+
+# Node modules (if added later)
+node_modules/
