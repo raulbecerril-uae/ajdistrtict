@@ -711,22 +711,24 @@ $('#rform').addEventListener('click',e=>{const b=e.target.closest('button');if(!
 $('#lgf').onchange=e=>{const f=e.target.files[0];if(!f)return;const fr=new FileReader();fr.onload=()=>{RC.logo=fr.result;sync()};fr.readAsDataURL(f)};
 // receipt image and PDF (canvas keeps every script, Arabic included)
 const loadImg=u=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=u});
+const getThemeColors=()=>{const style=getComputedStyle(document.documentElement);return{panel:style.getPropertyValue('--panel').trim(),on:style.getPropertyValue('--on').trim(),acc:style.getPropertyValue('--acc').trim(),sand:style.getPropertyValue('--sand').trim()}};
 function paint2(R,x,W,img){const c=calc(R),m=v=>R.cur+' '+fmt(v),M=56,SA='Figtree,system-ui,sans-serif',SF='Fraunces,Georgia,serif';let y=0;
+ const theme=getThemeColors();
  const T=(t,px,py,f,col,al='left')=>{x.font=f;x.fillStyle=col;x.textAlign=al;x.direction='ltr';x.fillText(t,px,py)};
  const wrap=(t,mw,f)=>{x.font=f;const o=[];String(t).split('\n').forEach(p=>{let l='';p.split(' ').forEach(w=>{const n=l?l+' '+w:w;if(l&&x.measureText(n).width>mw){o.push(l);l=w}else l=n});o.push(l)});return o};
  const hr=()=>{x.strokeStyle='#d8cdbb';x.lineWidth=2;x.setLineDash([8,6]);x.beginPath();x.moveTo(M,y);x.lineTo(W-M,y);x.stroke();x.setLineDash([]);y+=36};
  const row=(k,v,big)=>{if(!v)return;const f=`600 ${big?30:26}px ${SA}`,L=wrap(v,440,f);T(k,M,y,`24px ${SA}`,'#7a7468');L.forEach((l,i)=>{T(l,W-M,y+i*36,f,'#1B2526','right')});y+=L.length*36+8};
- x.fillStyle=R.logo?'#fff':'#0E2B2C';x.fillRect(0,0,W,190);if(R.logo){x.fillStyle='#eee';x.fillRect(0,188,W,3)}
+ x.fillStyle=R.logo?'#fff':theme.panel;x.fillRect(0,0,W,190);if(R.logo){x.fillStyle='#eee';x.fillRect(0,188,W,3)}
  if(img){const k=Math.min(320/img.width,84/img.height),w=img.width*k,h=img.height*k;x.drawImage(img,M,(190-h)/2,w,h)}
- T('Receipt',W-M,108,`500 40px ${SF}`,R.logo?'#1B2526':'#EFDFCB','right');y=270;
- x.font=`700 22px ${SA}`;const bw=x.measureText(R.status.toUpperCase()).width+40;x.fillStyle='#0E2B2C';x.beginPath();(x.roundRect||x.rect).call(x,M,y-30,bw,44,22);x.fill();T(R.status.toUpperCase(),M+20,y,`700 22px ${SA}`,'#EFDFCB');y+=74;
+ T('Receipt',W-M,108,`500 40px ${SF}`,R.logo?'#1B2526':theme.on,'right');y=270;
+ x.font=`700 22px ${SA}`;const bw=x.measureText(R.status.toUpperCase()).width+40;x.fillStyle=theme.panel;x.beginPath();(x.roundRect||x.rect).call(x,M,y-30,bw,44,22);x.fill();T(R.status.toUpperCase(),M+20,y,`700 22px ${SA}`,theme.on);y+=74;
  wrap(R.no,W-2*M,`500 48px ${SF}`).forEach(l=>{T(l,M,y,`500 48px ${SF}`,'#1B2526');y+=56});y+=6;hr();
  [['Event',R.event],['Venue',R.venue],['Date',fdate(R.date)],['Payment',R.method]].forEach(([k,v])=>row(k,v));y+=4;hr();
  [['Client',R.cName],['Contact',R.cContact],['Email',R.cEmail],['Phone',R.cPhone],['License or ID',R.cId]].forEach(([k,v])=>row(k,v));y+=4;hr();
  R.items.forEach(i=>{const L=wrap(i.d||'Item',470,`600 27px ${SA}`);L.forEach((l,k)=>T(l,M,y+k*35,`600 27px ${SA}`,'#1B2526'));T(m(i.q*i.p),W-M,y,`600 27px ${SA}`,'#1B2526','right');y+=L.length*35;T(`${fmt(i.q)} × ${m(i.p)}`,M,y,`22px ${SA}`,'#7a7468');y+=46});hr();
  const sr=(k,v)=>{T(k,M,y,`24px ${SA}`,'#7a7468');T(v,W-M,y,`600 26px ${SA}`,'#1B2526','right');y+=38};
  sr('Subtotal',m(c.sub));if(c.disc)sr('Discount','-'+m(c.disc));if(+R.vat)sr('VAT '+fmt(R.vat)+'%',m(c.vatAmt));y+=8;
- x.fillStyle='#EFDFCB';x.fillRect(M,y,W-2*M,112);T('Total',M+30,y+68,`26px ${SA}`,'#0E2B2C');T(m(c.total),W-M-30,y+74,`500 46px ${SF}`,'#0E2B2C','right');y+=112+46;
+ x.fillStyle=theme.sand;x.fillRect(M,y,W-2*M,112);T('Total',M+30,y+68,`26px ${SA}`,theme.panel);T(m(c.total),W-M-30,y+74,`500 46px ${SF}`,theme.panel,'right');y+=112+46;
  if(R.notes){wrap(R.notes,W-2*M,`23px ${SA}`).forEach(l=>{T(l,M,y,`23px ${SA}`,'#5b5346');y+=32});y+=20}
  const b=bars(R.no),k=(W-2*M)/b.W;x.fillStyle='#1B2526';b.o.forEach(([bx,w])=>x.fillRect(M+bx*k,y,Math.max(2,w*k),64));y+=64+42;
  [R.issuer+(R.issuerLine?' · '+R.issuerLine:''),R.tax?'Tax no. '+R.tax:''].filter(Boolean).forEach(l=>{T(l,W/2,y,`21px ${SA}`,'#7a7468','center');y+=30});return y+40}
