@@ -788,11 +788,11 @@ addEventListener('scroll',hideTip,{passive:true});document.documentElement.addEv
 paint();route();addEventListener('resize',()=>{if(!stage.hidden&&!dr)setCam({z:home().z})});
 
 // event locations: add one object per event and the map section updates itself
-const EVENTS=[{id:'yi',name:'Sample Event',place:'Al Safia Park',addr:'Al Safia Park, Al Nahda, Dubai, UAE',date:'20–22 November 2026',time:'4 to 10 pm',note:'Parking is available at the park. Look for the lit entrance gate.'}];
+const EVENTS=[{id:'yi',name:'Sample Event',place:'Al Safia Park',addr:'Al Safia Park, Al Nahda, Dubai, UAE',coords:'25.4183631,55.481683',date:'20–22 November 2026',time:'4 to 10 pm',note:'Parking is available at the park. Look for the lit entrance gate.'}];
 let evSel=EVENTS[0].id;
 function locView(){const e=EVENTS.find(x=>x.id===evSel),q=encodeURIComponent(e.addr);
  $('#evtabs').innerHTML=EVENTS.map(x=>`<button data-e="${x.id}" aria-pressed="${x.id===evSel}"><i class="ph-light ph-map-pin"></i>${esc(x.name)}</button>`).join('')+'<button disabled><i class="ph-light ph-clock"></i>Next event · location soon</button>';
- const f=$('#mapf'),u=`https://www.google.com/maps?q=${q}&output=embed`;if(f.getAttribute('src')!==u)f.src=u;
+ const f=$('#mapf'),u=`https://maps.google.com/maps?q=${e.coords}&t=&z=15&ie=UTF8&iwloc=&output=embed`;if(f.getAttribute('src')!==u)f.src=u;
  $('#locinfo').innerHTML=`<span class="tag">Booking open</span><h3>${esc(e.name)}</h3><dl><div><i class="ph-light ph-map-pin"></i><span><dt>Venue</dt><dd>${esc(e.place)}<br>Ajman, UAE</dd></span></div><div><i class="ph-light ph-calendar-blank"></i><span><dt>Dates</dt><dd>${esc(e.date)}</dd></span></div><div><i class="ph-light ph-clock"></i><span><dt>Opening hours</dt><dd>${esc(e.time)}</dd></span></div><div><i class="ph-light ph-car"></i><span><dt>Getting there</dt><dd style="font-weight:500">${esc(e.note)}</dd></span></div></dl>
  <div class="lacts"><a class="btn dk" href="https://www.google.com/maps/dir/?api=1&destination=${q}" target="_blank" rel="noopener"><i class="ph-light ph-navigation-arrow"></i> Get directions</a><a class="btn sd" href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener"><i class="ph-light ph-arrow-up-right"></i> Open in Google Maps</a><button class="btn sd" id="lcp"><i class="ph-light ph-copy"></i> Copy address</button></div>`;
  $('#lcp').onclick=async()=>{try{await navigator.clipboard.writeText(e.addr);toast('Address copied')}catch(x){toast(e.addr)}}}
