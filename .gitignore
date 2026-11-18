@@ -26,3 +26,6 @@ desktop.ini
 
 # Node modules (if added later)
 node_modules/
+
+# Deploy output (generated folder)
+deploy/
