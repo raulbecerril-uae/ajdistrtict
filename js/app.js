@@ -319,7 +319,7 @@ addEventListener('scroll',hideTip,{passive:true});document.documentElement.addEv
 paint();route();let lw=0,lwide=null;addEventListener('resize',()=>{if(stage.hidden||dr)return;const w=stage.clientWidth,wd=wide();if(Math.abs(w-lw)>8||wd!==lwide){lw=w;lwide=wd;setCam(home())}});
 
 // event locations: add one object per event and the map section updates itself
-const EVENTS=[{id:'yi',name:'Demo Event',place:'Al Safia Park',addr:'Al Safia Park, Al Nahda, Ajman, UAE',coords:'25.4183631,55.481683',date:'27–29 November 2026',time:'4 to 11 pm',note:'Parking is available at the park. Look for the lit entrance gate.'}];
+const EVENTS=[{id:'yi',name:'Demo Event',place:'Al Safia Park',addr:'Al Safia Park, Ajman, UAE',coords:'25.4183631,55.481683',date:'27–29 November 2026',time:'4 to 11 pm',note:'Parking is available at the park. Look for the lit entrance gate.'}];
 let evSel=EVENTS[0].id;
 function locView(){const e=EVENTS.find(x=>x.id===evSel),q=encodeURIComponent(e.addr);
  $('#evtabs').innerHTML=EVENTS.map(x=>`<button data-e="${x.id}" aria-pressed="${x.id===evSel}"><i class="ph-light ph-map-pin"></i>${esc(x.name)}</button>`).join('')+'<button disabled><i class="ph-light ph-clock"></i>Next event · location soon</button>';
