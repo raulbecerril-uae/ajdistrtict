@@ -280,9 +280,9 @@ async function share(R){const t=shareText(R),en=encodeURIComponent,ph=(R.cPhone|
   else if(a==='png'){(await canvas2(R)).toBlob(x=>{save(x,fname(R).replace('.pdf','.png'));toast('Image saved')})}
   else if(a==='print'){dlg.close();sync();$('#ticket').classList.add('print');setTimeout(()=>window.print(),80)}
   else{const f=new File([await pdf(R)],fname(R),{type:'application/pdf'});cf?await navigator.share({files:[f],text:t}):await navigator.share({text:t})}}catch(x){if(x.name!=='AbortError')toast('That didn’t work here')}}}
-// routing: home page and receipts page in one file
-function route(){const h=location.hash.slice(1),rp=h==='receipt';$('#pg-home').hidden=rp;$('#pg-receipt').hidden=!rp;document.body.classList.toggle('rp',rp);$('#hd').classList.toggle('solid',rp||scrollY>40);
- if(rp){scrollTo(0,0);fill();printTicket()}else{requestAnimationFrame(()=>{view(document.querySelector('#views [aria-pressed=true]').dataset.v);const t=h&&document.getElementById(h);t?t.scrollIntoView():scrollTo(0,0)})}}
+// routing: home, receipts and terms pages share this document
+function route(){const h=location.hash.slice(1),rp=h==='receipt',tp=h==='terms',sub=rp||tp;$('#pg-home').hidden=sub;$('#pg-receipt').hidden=!rp;$('#pg-terms').hidden=!tp;document.body.classList.toggle('rp',sub);$('#hd').classList.toggle('solid',sub||scrollY>40);
+ if(rp){scrollTo(0,0);fill();printTicket()}else if(tp){scrollTo(0,0)}else{requestAnimationFrame(()=>{view(document.querySelector('#views [aria-pressed=true]').dataset.v);const t=h&&document.getElementById(h);t?t.scrollIntoView():scrollTo(0,0)})}}
 addEventListener('hashchange',route);
 // ---- v7: views, tooltips ----
 let V='3d';
@@ -378,7 +378,7 @@ els.forEach(e=>io.observe(e))})();
 function rtab(t){const pg=$('#pg-receipt');pg.dataset.rt=t;document.querySelectorAll('.rtabs [data-rt]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.rt===t));if(t==='view'){sync();printTicket()}}
 $('.rtabs').addEventListener('click',e=>{const b=e.target.closest('[data-rt]');if(b){rtab(b.dataset.rt);scrollTo({top:0,behavior:'instant'})}});
 (()=>{const B=document.body,burger=$('#burger'),mnav=$('#mnav');
- const lock=o=>document.querySelectorAll('#pg-home,#pg-receipt,footer').forEach(e=>e.inert=o);
+ const lock=o=>document.querySelectorAll('#pg-home,#pg-receipt,#pg-terms,footer').forEach(e=>e.inert=o);
  function menu(o){B.classList.toggle('menu',o);document.documentElement.classList.toggle('menu',o);burger.setAttribute('aria-expanded',o);burger.setAttribute('aria-label',o?'Close menu':'Open menu');lock(o)}
  burger.onclick=()=>menu(!B.classList.contains('menu'));
  mnav.addEventListener('click',e=>{if(e.target.closest('a'))menu(false)});
@@ -388,7 +388,7 @@ $('.rtabs').addEventListener('click',e=>{const b=e.target.closest('[data-rt]');i
  const setCur=id=>document.querySelectorAll('[data-nav]').forEach(a=>a.dataset.nav===id?a.setAttribute('aria-current','true'):a.removeAttribute('aria-current'));
  const io=new IntersectionObserver(es=>es.forEach(n=>{if(n.isIntersecting&&!B.classList.contains('rp'))setCur(n.target.id)}),{rootMargin:'-40% 0px -55% 0px'});
  ['events','location','book','sponsors','faq'].forEach(id=>io.observe(document.getElementById(id)));
- const sync2=()=>{if(B.classList.contains('rp'))setCur('receipt');else if(scrollY<300)setCur('')};
+ const sync2=()=>{if(B.classList.contains('rp'))setCur(location.hash==='#terms'?'terms':'receipt');else if(scrollY<300)setCur('')};
  addEventListener('hashchange',sync2);addEventListener('scroll',()=>{if(scrollY<300&&!B.classList.contains('rp'))setCur('')},{passive:true});sync2();
  new IntersectionObserver(([n])=>B.classList.toggle('inbook',n.isIntersecting)).observe($('#book'))})();
 
@@ -412,22 +412,6 @@ $('.rtabs').addEventListener('click',e=>{const b=e.target.closest('[data-rt]');i
 (()=>{const h=document.querySelector('.hero'),sh=document.querySelector('.shot');if(!h||!sh||!matchMedia('(hover:hover)').matches)return;
  h.addEventListener('pointermove',e=>{if(sh.classList.contains('dragging'))return;const r=h.getBoundingClientRect();sh.style.setProperty('--mx',((e.clientX-r.left)/r.width*2-1).toFixed(2));sh.style.setProperty('--my',((e.clientY-r.top)/r.height*2-1).toFixed(2))});
  h.addEventListener('pointerleave',()=>{sh.style.setProperty('--mx',0);sh.style.setProperty('--my',0)})})();
-// ---- v22: draggable hero photos ----
-(()=>{const hero=document.querySelector('.hero'),shot=document.querySelector('.shot');if(!hero||!shot)return;
- const ph=[...shot.querySelectorAll('.ph')],order=ph.slice(),restack=()=>order.forEach((e,i)=>e.style.zIndex=1+i);
- const reset=el=>{el.style.setProperty('--dx','0px');el.style.setProperty('--dy','0px')};
- ph.forEach(el=>{let id=null,sx,sy,ox,oy;const v=k=>parseFloat(el.style.getPropertyValue(k))||0;
-  el.addEventListener('pointerdown',e=>{if(e.button)return;id=e.pointerId;el.setPointerCapture(id);sx=e.clientX;sy=e.clientY;ox=v('--dx');oy=v('--dy');
-   order.push(order.splice(order.indexOf(el),1)[0]);restack();el.classList.add('dragging');shot.classList.add('dragging')});
-  el.addEventListener('pointermove',e=>{if(e.pointerId!==id)return;
-   const h=hero.getBoundingClientRect(),r=el.getBoundingClientRect(),cx=v('--dx'),cy=v('--dy');
-   let nx=ox+e.clientX-sx,ny=oy+e.clientY-sy;const ax=nx-cx,ay=ny-cy;
-   if(r.left+ax<h.left)nx=cx+h.left-r.left;if(r.right+ax>h.right)nx=cx+h.right-r.right;
-   if(r.top+ay<h.top+70)ny=cy+h.top+70-r.top;if(r.bottom+ay>h.bottom)ny=cy+h.bottom-r.bottom;
-   el.style.setProperty('--dx',nx+'px');el.style.setProperty('--dy',ny+'px')});
-  const end=e=>{if(e.pointerId!==id)return;id=null;el.classList.remove('dragging');shot.classList.remove('dragging')};
-  el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);el.addEventListener('dblclick',()=>reset(el))});
- restack();let w=innerWidth;addEventListener('resize',()=>{if(innerWidth!==w){w=innerWidth;ph.forEach(reset)}})})();
 // ---- v14: roll text on header links ----
 document.querySelectorAll('.dnav a:not(.btn)').forEach(a=>{const t=a.textContent;a.innerHTML=`<span class="roll"><span>${t}</span><span aria-hidden="true">${t}</span></span>`;a.setAttribute('aria-label',t)});
 // ---- v13: basket clear + animations ----

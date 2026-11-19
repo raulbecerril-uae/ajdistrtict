@@ -984,7 +984,7 @@ html[dir=rtl] .evc{direction:rtl}
 .shot .slides{transform:translate(calc(var(--mx,0)*14px + var(--dx,0px)),calc(var(--my,0)*10px + var(--dy,0px))) rotate(3deg)}
 .shot .mini{transform:translate(calc(var(--mx,0)*-22px + var(--dx,0px)),calc(var(--my,0)*14px + var(--dy,0px))) rotate(-6deg)}
 .shot .mini2{transform:translate(calc(var(--mx,0)*-10px + var(--dx,0px)),calc(var(--my,0)*-12px + var(--dy,0px))) rotate(-3deg)}
-.shot .ph{isolation:isolate;overflow:hidden;cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none;transition:transform .35s ease-out;box-shadow:0 0 0 1px color-mix(in srgb,var(--on) 14%,transparent),0 30px 50px -22px color-mix(in srgb,var(--deep) 90%,#000)}
+.shot .ph{isolation:isolate;overflow:hidden;cursor:default;touch-action:pan-y;-webkit-user-select:none;user-select:none;transition:transform .35s ease-out;box-shadow:0 0 0 1px color-mix(in srgb,var(--on) 14%,transparent),0 30px 50px -22px color-mix(in srgb,var(--deep) 90%,#000)}
 .shot .ph>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;-webkit-user-drag:none;filter:saturate(.82) contrast(.96)}
 .shot .ph::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:var(--panel);mix-blend-mode:lighten;opacity:.5}
 .shot .ph::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;border:0;border-radius:0;background:linear-gradient(150deg,color-mix(in srgb,var(--acc) 20%,transparent),transparent 45%,color-mix(in srgb,var(--panel) 55%,transparent));mix-blend-mode:soft-light}
@@ -1067,6 +1067,30 @@ html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%;text-size-adjus
 .evc:hover{transform:none;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 24%,transparent)}
 .btn:not(:disabled):hover{transform:none;box-shadow:none}
 .pin:hover{box-shadow:0 0 0 4px color-mix(in srgb,var(--acc) 70%,transparent)}
+
+/* ---- exhibition terms page ---- */
+.terms-download{display:inline-flex;align-items:center;gap:10px;margin-top:8px;padding:13px 18px;text-decoration:none}
+.terms-download span{padding-left:10px;border-left:1px solid color-mix(in srgb,currentColor 30%,transparent);font-size:.9em}
+.terms-intro,.term,.terms-ack{background:#fff;border-radius:22px;padding:24px 28px;box-shadow:0 8px 28px #1b25260b}
+.terms-intro{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:26px;background:color-mix(in srgb,var(--sand) 65%,#fff)}
+.terms-intro>div+div{border-left:1px solid #d9c8ad;padding-left:28px}
+.terms-intro b{font:600 1.15rem var(--serif)}
+.terms-intro p{margin:8px 0 0;color:#5b5346}
+.terms-list{display:grid;gap:14px;margin-top:16px}
+.term{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.term>div+div{border-left:1px solid #e6ddcf;padding-left:28px}
+.term h2,.terms-ack h2{font:600 1.13rem var(--serif);margin:0 0 10px;color:#1B2526}
+.term p,.term li,.terms-ack p{font-size:14.5px;line-height:1.65;color:#4c514c}
+.term p{margin:0 0 8px}.term ul{margin:0;padding-left:20px}.term li+li{margin-top:5px}
+.term [dir=rtl] ul{padding-left:0;padding-right:20px}
+.term-strong{font-weight:700!important;color:#1B3B30!important}
+.terms-ack{margin-top:16px;background:color-mix(in srgb,var(--sand) 65%,#fff)}
+.terms-ack h2+h2{margin-top:18px}
+.terms-sign{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:22px}
+.terms-sign span{min-height:52px;padding:12px 14px;border:1px solid #d9c8ad;border-radius:12px;color:#5b5346;font-size:13px}
+.terms-sign b{display:inline-block;margin-top:6px;color:#1B2526;font-weight:600}
+.terms-payment{background:#fff}
+@media(max-width:700px){.terms-download{flex-wrap:wrap}.terms-download span{padding:4px 0 0;border-left:0;border-top:1px solid color-mix(in srgb,currentColor 30%,transparent);width:100%}.terms-intro,.term{grid-template-columns:1fr;gap:18px;padding:20px}.terms-intro>div+div,.term>div+div{border-left:0;border-top:1px solid #e6ddcf;padding:16px 0 0}.terms-sign{gap:9px}.terms-sign span{padding:10px;font-size:12px}.terms-ack{padding:20px}}
 
 /* ---- receipts: one scrollbar only ---- */
 .rside{max-height:none!important;overflow:visible!important}
