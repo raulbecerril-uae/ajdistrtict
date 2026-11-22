@@ -1092,6 +1092,45 @@ html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%;text-size-adjus
 .terms-payment{background:#fff}
 @media(max-width:700px){.terms-download{flex-wrap:wrap}.terms-download span{padding:4px 0 0;border-left:0;border-top:1px solid color-mix(in srgb,currentColor 30%,transparent);width:100%}.terms-intro,.term{grid-template-columns:1fr;gap:18px;padding:20px}.terms-intro>div+div,.term>div+div{border-left:0;border-top:1px solid #e6ddcf;padding:16px 0 0}.terms-sign{gap:9px}.terms-sign span{padding:10px;font-size:12px}.terms-ack{padding:20px}}
 
+/* ---- site admin dashboard ---- */
+.dashpage{min-height:100vh;background:var(--sand);color:#1B2526;padding:calc(84px + env(safe-area-inset-top,0px)) 0 80px}
+.dashpage .back{display:flex;width:max-content;margin:0 0 8px}
+.dash-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:30px}
+.dash-kicker{display:block;font:700 11px var(--sans);letter-spacing:.16em;color:#75827a;margin:6px 0 12px}
+.dash-head h1{font-size:clamp(2.3rem,5vw,3.6rem);margin:0 0 8px}.dash-head .sub{color:#646e68}
+.dash-state{display:flex;align-items:center;gap:8px;border-radius:99px;background:#e3eddf;padding:9px 14px;font-size:13px;font-weight:600;color:#27543d;white-space:nowrap}
+.dash-state i{width:8px;height:8px;border-radius:50%;background:#3e9a5d}.dash-state.unsaved{background:#fff0d5;color:#785514}.dash-state.unsaved i{background:#df9c28}
+.dash-layout{display:grid;grid-template-columns:205px minmax(0,1fr);gap:24px;align-items:start}
+.dash-nav{position:sticky;top:82px;display:grid;gap:5px;padding:10px;background:#e6d9c5;border-radius:18px}
+.dash-nav a{padding:10px 12px;border-radius:11px;text-decoration:none;font-size:14px;font-weight:600;color:#536158}.dash-nav a:hover{background:#fff;color:#1B2526}
+.dash-main{min-width:0;display:grid;gap:16px}.dash-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:2px}
+.dash-stats>div{display:grid;gap:5px;background:#fff;border-radius:16px;padding:15px 18px;box-shadow:0 6px 22px #1b25260a}
+.dash-stats span{font-size:12px;color:#78827a}.dash-stats b{font:600 1.1rem var(--serif);color:#1B2526}
+.dash-card{scroll-margin-top:84px;background:#fff;border-radius:20px;padding:23px 25px;box-shadow:0 8px 28px #1b25260b}
+.dash-cardhead{display:flex;align-items:center;gap:12px;margin-bottom:20px}.dash-icon{width:42px;height:42px;display:grid;place-items:center;background:#f3ecdf;color:var(--panel);border-radius:13px;font-size:20px;flex:none}
+.dash-cardhead h2{font-size:1.35rem;margin:0 0 3px}.dash-cardhead p{font-size:13px;color:#798179}
+.dash-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+.dash-fields label{display:grid;gap:6px;font-size:13px;font-weight:600;color:#566159}.dash-fields .dash-wide{grid-column:1/-1}
+.dash-fields input,.dash-fields textarea{width:100%;min-width:0;border:1px solid #ddd6ca;border-radius:11px;padding:11px 12px;background:#fffdfa;color:#1B2526;font:15px var(--sans)}
+.dash-fields input:focus,.dash-fields textarea:focus{outline:3px solid color-mix(in srgb,var(--panel) 22%,transparent);border-color:var(--panel)}.dash-fields textarea{resize:vertical;line-height:1.5}
+.dash-colors{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.dash-colors label{display:grid;gap:8px;padding:12px;border:1px solid #e7e0d6;border-radius:13px;font-size:12px;font-weight:600;color:#566159}
+.dash-colors input{width:100%;height:42px;padding:3px;border:1px solid #ddd6ca;border-radius:9px;background:white;cursor:pointer}
+.dash-help{margin-top:14px;color:#788078;font-size:12.5px;line-height:1.5}
+.dash-image-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.dash-image{display:grid;align-content:start;gap:8px;padding:11px;border:1px solid #e7e0d6;border-radius:14px;font-size:12px;font-weight:600;color:#566159;min-width:0}
+.dash-image img{width:100%;height:112px;object-fit:cover;border-radius:9px;background:#f4efe7}.dash-image input{width:100%;min-width:0;font:12px var(--sans)}
+.dash-image button{border:0;background:none;color:#657369;text-align:left;text-decoration:underline;text-underline-offset:3px;cursor:pointer;font:600 12px var(--sans);padding:3px 0}
+.dash-section-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.dash-section-list label{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid #e7e0d6;border-radius:13px;cursor:pointer}
+.dash-section-list span{display:grid;gap:3px}.dash-section-list b{font-size:14px}.dash-section-list small{font-size:12px;color:#788078}
+.dash-section-list input{width:19px;height:19px;accent-color:var(--panel);flex:none}
+.dash-actions{display:flex;gap:10px;flex-wrap:wrap}.dash-actions .btn{font-size:13px;padding:10px 16px}.dash-reset{color:#7c4c3e!important;box-shadow:inset 0 0 0 1px #dfc5b9!important}
+.dash-import{position:relative;overflow:hidden}.dash-import input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.dash-savebar{position:sticky;bottom:12px;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 14px 12px 18px;border:1px solid #ddd1bf;border-radius:16px;background:#fffdf8ee;backdrop-filter:blur(12px);box-shadow:0 10px 30px #1b25261c}
+.dash-savebar span{font-size:12.5px;color:#6a756d}.dash-savebar .btn{padding:11px 20px}
+@media(max-width:850px){.dash-layout{grid-template-columns:1fr}.dash-nav{position:static;display:flex;overflow-x:auto;scrollbar-width:thin}.dash-nav a{white-space:nowrap}.dash-image-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.dashpage{padding:70px 0 45px}.dash-head{display:block}.dash-state{width:max-content;margin-top:16px}.dash-stats{grid-template-columns:1fr 1fr}.dash-stats>div:last-child{grid-column:1/-1}.dash-card{padding:18px 16px}.dash-fields{grid-template-columns:1fr}.dash-fields .dash-wide{grid-column:auto}.dash-colors{grid-template-columns:1fr 1fr}.dash-image-grid{grid-template-columns:1fr 1fr}.dash-image img{height:90px}.dash-section-list{grid-template-columns:1fr}.dash-savebar{bottom:8px;align-items:flex-start}.dash-savebar span{max-width:45%;font-size:11px}.dash-savebar .btn{padding:10px 14px;font-size:13px}}
+
 /* ---- receipts: one scrollbar only ---- */
 .rside{max-height:none!important;overflow:visible!important}
 @media(min-width:901px) and (min-height:820px){#rform{position:sticky;top:84px}}
@@ -1156,3 +1195,36 @@ details .dbody{overflow:hidden}
 
 /* sponsor backdrop (was inline --bg; url() resolves against this stylesheet) */
 .spons{--bg:url(../photos/DSC04812.jpg)}
+html[data-theme=custom][data-custom-light=true] .logo{filter:brightness(0) opacity(.85)}
+
+/* Booking sits on a white canvas below the event marquee. */
+#book.on-panel{background:#fff;color:#1B2526}
+#book h2{color:#1B2526}
+#book .sub.mut{color:#5E6B6B!important}
+#book .avail,#book .side{color:var(--on)}
+#book .note{color:#5E6B6B;opacity:1}
+#book .mfoot .legend{color:#5E6B6B}
+/* Keep the booking controls clean on the white section. */
+#book .kinds{padding:0;gap:8px;background:transparent}
+#book .kinds button{box-shadow:none;border:0}
+#book .kinds button:not([aria-pressed=true]){color:#5E6B6B}
+#book .ctrls>.seg{padding:0;gap:6px;background:transparent}
+#book .ctrls>.seg button{border:0;box-shadow:none}
+#book .ctrls>.seg button:not([aria-pressed=true]){color:#5E6B6B}
+/* Remove decorative button outlines; retain a subtle keyboard-focus cue. */
+:focus-visible{outline:none;filter:brightness(1.12)}
+button:focus:not(:focus-visible),.btn:focus:not(:focus-visible){outline:none}
+.btn.ghost{background:color-mix(in srgb,var(--on) 9%,transparent);box-shadow:none}
+.langb{background:color-mix(in srgb,var(--on) 9%,transparent);box-shadow:none}
+.chip{box-shadow:none}
+.evfil{box-shadow:none}
+.evtabs button:disabled{box-shadow:none}
+.racts .sec .btn.sd,.rx .btn,.dlg .btn.wb.google{box-shadow:none!important}
+.pm button{border-color:transparent}
+
+/* Booking form readability and inline validation */
+#dlg .db input{color:var(--ink);caret-color:var(--ink);-webkit-text-fill-color:var(--ink)}
+#dlg .db input::placeholder{color:#7c8583;opacity:1;-webkit-text-fill-color:#7c8583}
+#dlg .db input[aria-invalid="true"]{border-color:#b84636}
+#dlg .field-error{min-height:0;margin:4px 0 0;color:#a83e30;font-size:12px;line-height:1.4}
+#dlg .field-error:empty{display:none}

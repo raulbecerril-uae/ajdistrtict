@@ -46,7 +46,7 @@ const AR={
 };
 Object.assign(AR,{'Back':'السابق','Next':'التالي','Print receipt':'طباعة الإيصال','Ready':'جاهز','Printing':'جارٍ الطباعة','Totals':'الإجماليات'});
 const MON={Jan:'يناير',Feb:'فبراير',Mar:'مارس',Apr:'أبريل',May:'مايو',Jun:'يونيو',Jul:'يوليو',Aug:'أغسطس',Sep:'سبتمبر',Oct:'أكتوبر',Nov:'نوفمبر',Dec:'ديسمبر'};
-Object.assign(AR,{'Terms':'الشروط'});
+Object.assign(AR,{'Terms':'الشروط','Dashboard':'لوحة التحكم'});
 const PAT=[
 [/AED ([\d,]+)/g,'$1 درهم'],
 [/^(\d+(?:–\d+)?) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)$/,(m,d,mo)=>d+' '+MON[mo]],

@@ -29,3 +29,7 @@ node_modules/
 
 # Deploy output (generated folder)
 deploy/
+storage/site.json
+storage/admin.json
+storage/uploads/*
+!storage/uploads/.gitkeep

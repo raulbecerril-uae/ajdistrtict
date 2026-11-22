@@ -2,6 +2,27 @@
 
 A modern, responsive web application for booking exhibition spaces at AJ District events in the UAE.
 
+## CMS dashboard
+
+The public site is served through the extensionless PHP front controller at `/` (`index.php`). The CMS dashboard is a separate, protected page at `/admin`. Apache uses `.htaccess`; IIS uses `web.config` and requires the URL Rewrite module. Use PHP 8.1 or newer.
+
+On first launch, visit `/admin/setup` from the server computer to create the administrator. For remote setup, configure the server environment variable `AJD_SETUP_KEY` and open `/admin/setup?key=YOUR-SECRET`; keep that key private and remove it after creating the account. Behind a reverse proxy on loopback, set `AJD_TRUSTED_PROXIES` to the proxy's IP (comma-separated) so forwarded client headers are honored; otherwise loopback requests carrying `X-Forwarded-For` are treated as remote. The dashboard stores site data in `storage/site.json`, administrator credentials as a password hash in `storage/admin.json`, and uploaded images in `storage/uploads/`. Ensure PHP can write to `storage/`; keep that directory private and deploy over HTTPS.
+
+For a local Windows preview, open PowerShell and run `D:\php\php.exe -S 127.0.0.1:8000 -t D:\dev\ajdistrict D:\dev\ajdistrict\router.php`, then visit `http://127.0.0.1:8000/`. The router script provides the extensionless routes for PHP's built-in server.
+
+The dashboard edits homepage copy, event details and upcoming cards, theme colors and images, homepage section visibility and order, sponsor packages, FAQs, bilingual terms, contact links, and navigation. Site settings can export and restore a JSON content backup. The files in `config/` provide the initial content; saved dashboard data is kept outside the public template.
+
+This project is no longer served as a static `index.html` site. Use a PHP capable web server with URL rewriting enabled.
+
+## 🧪 Development checks
+
+No Composer install is required (there are no dependencies). With PHP 8.1+ on your PATH:
+
+```powershell
+php tests/run.php    # unit tests for the CMS core (also: composer test)
+php tests/lint.php   # php -l syntax check across all PHP files (also: composer lint)
+```
+
 ## 🎯 Features
 
 ### Core Functionality
@@ -48,22 +69,30 @@ Theme preference is saved locally in your browser.
 
 ```
 ajdistrict/
-├── index.html          # Main application (single-file architecture)
-├── photos/            # Venue photography (40 images)
-│   ├── DSC04438.jpg  # Entrance gate (featured)
-│   ├── DSC04639.jpg  # Hero image
-│   └── ...
-├── logos/            # Brand assets
-│   ├── AJ-white@4x.png
-│   └── AJ-color@4x.png
-└── README.md
+├── index.php           # Front controller: routing, media, auth guard, action dispatch
+├── templates/
+│   └── public.html     # Public site template (config injected at the __AJ_CONFIG__ placeholder)
+├── includes/
+│   ├── cms.php         # Storage, CSRF/session helpers, media validation
+│   ├── auth.php        # Setup / login / logout handlers
+│   ├── actions.php     # Dashboard save handlers (pure functions, unit-tested)
+│   └── admin-view.php  # Dashboard UI
+├── tests/
+│   ├── run.php         # Dependency-free test runner
+│   └── lint.php        # Syntax checker
+├── js/                 # Public app (3D viewer, i18n, CMS hydration) + admin UI
+├── css/                # styles.css (public) and admin.css (dashboard)
+├── config/default.php  # Seed content shipped with the code
+├── storage/            # Live JSON data + uploads (private, never deploy over it)
+├── photos/             # Venue photography
+└── logos/              # Brand assets
 ```
 
 ## 🚀 Getting Started
 
-1. **Open the file**: Simply open `index.html` in any modern web browser
-2. **No build required**: Pure HTML/CSS/JavaScript - works offline
-3. **Mobile ready**: Works on phones, tablets, and desktops
+1. Run the folder under PHP 8.1+ with Apache `mod_rewrite` or IIS URL Rewrite enabled.
+2. Open `/` for the public site and `/admin` for administrator sign in.
+3. Complete the first administrator setup at `/admin/setup` as described in [CMS dashboard](#cms-dashboard).
 
 ## 🔧 Customization
 

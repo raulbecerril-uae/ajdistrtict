@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0E2B2C"><meta name="color-scheme" content="light dark">
+<script>(function(){var p=location.pathname.replace(/\/+$/,'').split('/').pop();window.AJ_ROUTE=p==='terms'||p==='receipt'?p:'';if(window.AJ_ROUTE)document.documentElement.dataset.pageRoute=window.AJ_ROUTE})()</script>
+<style>html:not([data-page-route="terms"]) #pg-terms,html:not([data-page-route="receipt"]) #pg-receipt{display:none!important}html[data-page-route="terms"] #pg-home,html[data-page-route="terms"] #pg-receipt,html[data-page-route="receipt"] #pg-home,html[data-page-route="receipt"] #pg-terms{display:none!important}</style>
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/favicon.ico" sizes="any"><link rel="icon" href="icons/icon-192.png" type="image/png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="AJ District"><meta name="format-detection" content="telephone=no">
 <title>AJ District · Exhibitions and events in the UAE</title>
@@ -43,7 +45,8 @@
 <script src="js/guard.js?v=2"></script>
 
 
-<link rel="stylesheet" href="css/styles.css?v=2">
+<link rel="stylesheet" href="css/styles.css?v=8">
+<style>.mth,.fthemes{display:none!important}</style>
 </head>
 
 <body>
@@ -60,32 +63,32 @@
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Photo viewer"><button class="lbx" id="lbx" aria-label="Close"><i class="ph-light ph-x"></i></button><button class="lbn lbp" id="lbp" aria-label="Previous photo"><i class="ph-light ph-caret-left"></i></button><figure><img id="lbi" alt=""><figcaption id="lbc"></figcaption></figure><button class="lbn lbf" id="lbf" aria-label="Next photo"><i class="ph-light ph-caret-right"></i></button></div>
 <div class="toast" id="toast" role="status"></div>
 <header id="hd"><div class="wrap nav">
-  <a class="brand" href="#home" aria-label="AJ District home"><img class="logo" src="logos/AJ-white@4x.png" alt="AJ District"></a>
-  <nav class="dnav" aria-label="Main"><a href="#events" data-nav="events">Events</a><a href="#book" data-nav="book">Reserve a space</a><a href="#sponsors" data-nav="sponsors">Sponsors</a><a href="#terms" data-nav="terms">Terms</a><a href="#receipt" data-nav="receipt">Receipts</a><button class="langb" type="button" data-lang-toggle data-notr aria-label="Language / اللغة">العربية</button><a class="btn lt" href="#book">Reserve now</a></nav>
+  <a class="brand" href="/" aria-label="AJ District home"><img class="logo" src="logos/AJ-white@4x.png" alt="AJ District"></a>
+  <nav class="dnav" aria-label="Main"><a href="#events" data-nav="events">Events</a><a href="#book" data-nav="book">Reserve a space</a><a href="#sponsors" data-nav="sponsors">Sponsors</a><a href="/admin" data-nav="dashboard">Dashboard</a><button class="langb" type="button" data-lang-toggle data-notr aria-label="Language / اللغة">العربية</button><a class="btn lt" href="#book">Reserve now</a></nav>
   <div class="nacts"><button class="langb" type="button" data-lang-toggle data-notr aria-label="Language / اللغة">العربية</button><a class="btn lt hcta" href="#book">Reserve</a><button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button></div>
 </div></header>
-<div class="mnav" id="mnav"><nav aria-label="Menu"><a class="ml" href="#events" data-nav="events">Events<i class="ph-light ph-arrow-up-right"></i></a><a class="ml" href="#book" data-nav="book">Reserve a space<i class="ph-light ph-arrow-up-right"></i></a><a class="ml" href="#sponsors" data-nav="sponsors">Sponsors<i class="ph-light ph-arrow-up-right"></i></a><a class="ml" href="#terms" data-nav="terms">Terms<i class="ph-light ph-arrow-up-right"></i></a><a class="ml" href="#receipt" data-nav="receipt">Receipts<i class="ph-light ph-arrow-up-right"></i></a></nav>
+<div class="mnav" id="mnav"><nav aria-label="Menu"><a class="ml" href="#events" data-nav="events">Events<i class="ph-light ph-arrow-up-right"></i></a><a class="ml" href="#book" data-nav="book">Reserve a space<i class="ph-light ph-arrow-up-right"></i></a><a class="ml" href="#sponsors" data-nav="sponsors">Sponsors<i class="ph-light ph-arrow-up-right"></i></a><a class="ml" href="/admin" data-nav="dashboard">Dashboard<i class="ph-light ph-arrow-up-right"></i></a></nav>
   <div class="mbot"><a class="btn acc" href="#book">Reserve a space <i class="ph-light ph-arrow-up-right"></i></a><a class="btn ghost" href="https://wa.me/971554662997" target="_blank" rel="noopener"><i class="ph-light ph-whatsapp-logo"></i> Message us</a>
   <button class="btn ghost" id="inst" type="button" hidden><i class="ph-light ph-download-simple"></i> Install app</button>
   <button class="langb mlang" type="button" data-lang-toggle data-notr aria-label="Language / اللغة">العربية</button><div class="mth"><span>Theme</span><div class="themes" data-themes role="group" aria-label="Colour theme"></div></div></div></div>
 
 <main id="pg-home">
-<div class="hero on-panel"><div class="hbg" aria-hidden="true"><img src="photos/DSC04670.jpg" alt="" fetchpriority="high" decoding="async"></div><div class="wrap">
+  <div class="hero on-panel"><div class="hbg" aria-hidden="true"><img data-dashboard-image="hero" src="photos/DSC04670.jpg" alt="" fetchpriority="high" decoding="async"></div><div class="wrap">
   <div>
-    <h1>Where ideas meet people.</h1>
-    <p class="lead mut">AJ District brings makers, brands and curious crowds together at exhibitions and events across the UAE.</p>
+    <h1 id="hero-title">Where ideas meet people.</h1>
+    <p class="lead mut" id="hero-description">AJ District brings makers, brands and curious crowds together at exhibitions and events across the UAE.</p>
     <div class="row"><a class="btn acc" href="#book">Reserve a space <i class="ph-light ph-arrow-up-right"></i></a><a class="btn ghost" href="#events">See all events</a></div>
-    <div class="facts"><div><b><i class="ph-light ph-calendar-blank"></i> 27–29 Nov</b><span class="mut">Demo Event, 4 - 11 pm</span></div><a href="#location" style="text-decoration:none"><b><i class="ph-light ph-map-pin"></i> Ajman</b><span class="mut">Al Safia Park · view map</span></a><div><b><i class="ph-light ph-ticket"></i> <span id="left">11</span></b><span class="mut">of 92 spaces left</span></div></div>
+    <div class="facts"><div><b><i class="ph-light ph-calendar-blank"></i> <span id="hero-date">27–29 Nov</span></b><span class="mut" id="hero-hours">Demo Event, 4 - 11 pm</span></div><a href="#location" style="text-decoration:none"><b><i class="ph-light ph-map-pin"></i> <span id="hero-city">Ajman</span></b><span class="mut"><span id="hero-venue">Al Safia Park</span> · view map</span></a><div><b><i class="ph-light ph-ticket"></i> <span id="left">11</span></b><span class="mut">of 92 spaces left</span></div></div>
   </div>
-  <div class="shot"><div class="slides ph" id="slides"><img class="on" src="photos/DSC04639.jpg" alt="Demo Event exhibition at dusk, with a lit entrance gate and visitors walking the aisle"></div>
-    <div class="mini ph"><img src="photos/DSC04620.jpg" alt="A white booth at Demo Event"></div><div class="mini2 ph"><img loading="lazy" decoding="async" src="photos/DSC04553.jpg" alt="The central aisle at night"></div>
-    <a class="spinb" href="#book" aria-label="Reserve a space"><svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="cp" d="M60 60m-45 0a45 45 0 1 1 90 0a45 45 0 1 1-90 0"/></defs><text font-size="12" font-weight="700" letter-spacing="1.6" fill="currentColor"><textPath href="#cp">Reserve your space · Reserve your space ·</textPath></text></svg><i class="ph-light ph-arrow-down-right"></i></a><div class="float" aria-label="Countdown to Demo Event"><p class="cdl" id="cdl"><i></i><span>Doors open in</span></p><div><b id="d">0</b><span>days</span></div><div><b id="h">0</b><span>hours</span></div><div><b id="m">0</b><span>min</span></div><div><b id="s">0</b><span>sec</span></div></div><div class="plate"><b>Demo Event 2026</b><span>Al Safia Park, Ajman · 27–29 November</span></div></div>
+  <div class="shot"><div class="slides ph" id="slides"><img class="on" data-dashboard-image="feature" src="photos/DSC04639.jpg" alt="Demo Event exhibition at dusk, with a lit entrance gate and visitors walking the aisle"></div>
+    <div class="mini ph"><img data-dashboard-image="booth" src="photos/DSC04620.jpg" alt="A white booth at Demo Event"></div><div class="mini2 ph"><img loading="lazy" decoding="async" data-dashboard-image="aisle" src="photos/DSC04553.jpg" alt="The central aisle at night"></div>
+    <a class="spinb" href="#book" aria-label="Reserve a space"><svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="cp" d="M60 60m-45 0a45 45 0 1 1 90 0a45 45 0 1 1-90 0"/></defs><text font-size="12" font-weight="700" letter-spacing="1.6" fill="currentColor"><textPath id="hero-ring-label" href="#cp">Reserve your space · Reserve your space ·</textPath></text></svg><i class="ph-light ph-arrow-down-right"></i></a><div class="float" aria-label="Countdown to Demo Event"><p class="cdl" id="cdl"><i></i><span>Doors open in</span></p><div><b id="d">0</b><span>days</span></div><div><b id="h">0</b><span>hours</span></div><div><b id="m">0</b><span>min</span></div><div><b id="s">0</b><span>sec</span></div></div><div class="plate"><b>Demo Event 2026</b><span>Al Safia Park, Ajman · 27–29 November</span></div></div>
 </div><div class="tk" id="tk" role="region" aria-label="Event ticker"><p class="tksr" id="tksr"></p><div class="tkv"><svg id="tkb" aria-hidden="true"></svg><div class="tkt" id="tkt" aria-hidden="true"></div></div></div></div>
 
 
 
 <section data-bgw="فعاليات" id="events"><div class="wrap">
-  <h2>What’s on at AJ District</h2>
+  <h2>Demo Event</h2>
   <p class="sub">Every event has its own space map and booking. New dates are added as soon as they’re confirmed.</p>
   <article class="evf">
     <div class="evfi"><img loading="lazy" decoding="async" src="photos/DSC04815.jpg" alt="Demo Event at night"><span class="evd"><b>27–29</b>Nov</span></div>
@@ -141,7 +144,7 @@
 
 <section data-bgw="بسهولة" id="how"><div class="wrap">
   <h2>Book in a minute, keep your receipt forever</h2>
-  <div class="how"><div><i class="ph-light ph-cursor-click"></i><h3>Choose</h3><p>Pick spaces on the map. The running total follows you down the page.</p></div><div><i class="ph-light ph-credit-card"></i><h3>Pay</h3><p>Card, Apple Pay or Google Pay. Your space locks the moment payment clears.</p></div><div><i class="ph-light ph-receipt"></i><h3>Download and share</h3><p>Get a receipt as a PDF in one tap, then share it by WhatsApp, email or link.</p><a class="btn dk" style="margin-top:16px;padding:11px 20px;font-size:15px" href="#receipt">Open the receipts page <i class="ph-light ph-arrow-up-right"></i></a></div></div>
+  <div class="how"><div><i class="ph-light ph-cursor-click"></i><h3>Choose</h3><p>Pick spaces on the map. The running total follows you down the page.</p></div><div><i class="ph-light ph-credit-card"></i><h3>Pay</h3><p>Card, Apple Pay or Google Pay. Your space locks the moment payment clears.</p></div><div><i class="ph-light ph-map-pin"></i><h3>Visit</h3><p>Check the event details and open the venue map before you arrive.</p><a class="btn dk" style="margin-top:16px;padding:11px 20px;font-size:15px" href="#location">Find the venue <i class="ph-light ph-arrow-up-right"></i></a></div></div>
 </div></section>
 
 <section data-bgw="رعاة" id="sponsors" class="spons on-panel"><div class="wrap">
@@ -175,7 +178,7 @@
 </main>
 
 <main id="pg-receipt" data-rt="edit" hidden><div class="rpage"><div class="wrap">
-  <a class="back" href="#home"><i class="ph-light ph-arrow-left"></i> Back to events</a>
+  <a class="back" href="/"><i class="ph-light ph-arrow-left"></i> Back to events</a>
   <h1>Receipts</h1><p class="sub">Create, print and share a receipt for any exhibitor. Every field is yours to edit, and the ticket updates as you type.</p>
   <div class="rtabw"><div class="seg rtabs" role="group" aria-label="Receipt view"><button type="button" data-rt="edit" aria-pressed="true"><i class="ph-light ph-pencil-simple"></i> Details</button><button type="button" data-rt="view" aria-pressed="false"><i class="ph-light ph-receipt"></i> Preview <b id="rtot"></b></button></div></div>
   <div class="rg"><div id="rform"></div>
@@ -185,7 +188,7 @@
 </div></div></main>
 
 <main id="pg-terms" hidden data-notr><div class="rpage"><div class="wrap">
-  <a class="back" href="#home"><i class="ph-light ph-arrow-left"></i> Back to events</a>
+  <a class="back" href="/"><i class="ph-light ph-arrow-left"></i> Back to events</a>
   <a class="btn dk terms-download" href="AJ_District_Exhibition_Terms_and_Payment_Receipt_Bilingual-v3.pdf" download><i class="ph-light ph-download-simple"></i> Download official AJ District PDF <span lang="ar" dir="rtl">تنزيل ملف AJ DISTRICT الرسمي بصيغة PDF</span></a>
   <h1>Exhibition Terms &amp; Conditions</h1>
   <p class="sub">AJ DISTRICT Event · Al Safia Park, Ajman<br>فعالية AJ DISTRICT · حديقة الصفيا، عجمان</p>
@@ -211,17 +214,19 @@
     <div class="row"><a class="btn acc" href="#book">Reserve a space <i class="ph-light ph-arrow-up-right"></i></a><a class="btn ghost" href="https://wa.me/971554662997" target="_blank" rel="noopener"><i class="ph-light ph-whatsapp-logo"></i> Message us</a></div></div>
   <div class="fgrid">
     <div class="fbrand"><img class="logo" src="logos/AJ-white@4x.png" alt="AJ District"><p class="mut">Exhibitions and events across the UAE, bringing makers, brands and curious crowds together.</p></div>
-    <nav aria-label="Explore"><h4>Explore</h4><a href="#events">Events</a><a href="#location">Location</a><a href="#book">Reserve a space</a><a href="#terms">Terms</a><a href="#receipt">Receipts</a></nav>
+    <nav aria-label="Explore"><h4>Explore</h4><a href="#events">Events</a><a href="#location">Location</a><a href="#book">Reserve a space</a><a href="/admin">Dashboard</a></nav>
     <div><h4>Next event</h4><p class="fev">Demo Event</p><p class="mut">27–29 November 2026<br>4 to 11 pm<br>Al Safia Park, Ajman</p><p style="margin-top:10px"><a href="#location" style="text-decoration:underline;text-underline-offset:4px"><i class="ph-light ph-map-pin"></i> View map</a></p></div>
     <nav aria-label="Contact"><h4>Contact</h4><a href="https://wa.me/971554662997" target="_blank" rel="noopener"><i class="ph-light ph-whatsapp-logo"></i> WhatsApp</a><a href="https://www.instagram.com/ajdistrict.ae" target="_blank" rel="noopener"><i class="ph-light ph-instagram-logo"></i> Instagram</a><a href="https://www.tiktok.com/@aj.district" target="_blank" rel="noopener"><i class="ph-light ph-tiktok-logo"></i> TikTok</a><a href="https://www.snapchat.com/add/ajdistrictevent" target="_blank" rel="noopener"><i class="ph-light ph-snapchat-logo"></i> Snapchat</a></nav>
   </div>
-  <div class="fbot"><small>© 2026 AJ District · Ajman, UAE</small><div class="fthemes"><span>Theme:</span><div class="themes" role="group" aria-label="Colour theme" id="themes" data-themes></div></div><a class="totop" href="#home">Back to top <i class="ph-light ph-arrow-up"></i></a></div>
+  <div class="fbot"><small>© 2026 AJ District · Ajman, UAE</small><div class="fthemes"><span>Theme:</span><div class="themes" role="group" aria-label="Colour theme" id="themes" data-themes></div></div><a class="totop" href="/">Back to top <i class="ph-light ph-arrow-up"></i></a></div>
 </div></footer>
 
 <div class="bar" id="bar"><div><strong id="bt"></strong><span id="bn"></span></div><button class="clr" id="clr" type="button" aria-label="Clear basket" title="Clear basket"><i class="ph-light ph-trash"></i></button><b class="tot" id="tot"></b><button class="btn dk" id="go">Continue <i class="ph-light ph-arrow-right"></i></button></div>
 <dialog id="dlg"></dialog>
 
-<script src="js/app.js?v=2"></script>
+<script>window.AJ_ROUTE=__AJ_ROUTE__;window.AJ_CONFIG=__AJ_CONFIG__;</script>
+<script src="js/app.js?v=11"></script>
+<script src="js/cms-public.js?v=8"></script>
 <script src="js/i18n.js?v=2"></script>
 <script src="js/carousel.js?v=2"></script>
 <script src="js/faq.js?v=2"></script>
