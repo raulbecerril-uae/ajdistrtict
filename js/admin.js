@@ -68,13 +68,21 @@ document.querySelectorAll('.admin-tabs').forEach(tabs=>{
 document.querySelectorAll('.admin-content form.edit-form input[name="action"][value^="save_"]').forEach(formAction=>{
  const form=formAction.form;if(!form)return;
  const dock=document.createElement('div');dock.className='admin-save-dock';dock.setAttribute('role','region');dock.setAttribute('aria-label','Save website changes');
- dock.innerHTML='<span class="save-status" aria-live="polite">No unpublished edits.</span><button class="button primary" type="button"><i class="ph-light ph-floppy-disk" aria-hidden="true"></i> Save changes</button>';
- dock.querySelector('button').addEventListener('click',()=>form.requestSubmit());document.body.append(dock);
+ dock.innerHTML='<span class="save-status" aria-live="polite">No unpublished edits.</span><div class="dock-actions"><button class="button secondary" type="button" data-discard-changes disabled><i class="ph-light ph-arrow-counter-clockwise" aria-hidden="true"></i> Discard changes</button><button class="button primary" type="button" data-save-changes><i class="ph-light ph-floppy-disk" aria-hidden="true"></i> Save changes</button></div>';
+ dock.querySelector('[data-save-changes]').addEventListener('click',()=>form.requestSubmit());document.body.append(dock);
  const status=dock.querySelector('.save-status');let dirty=false;
- const markDirty=()=>{dirty=true;status.textContent='You have unsaved changes.';dock.classList.add('is-dirty')};
+ const discardButtons=[dock.querySelector('[data-discard-changes]'),...form.querySelectorAll('[data-discard-changes]')];
+ const setDiscardEnabled=enabled=>discardButtons.forEach(button=>{if(button)button.disabled=!enabled});
+ const discardChanges=()=>{
+  if(!dirty)return;
+  if(!window.confirm('Discard your unsaved changes and reload this page?'))return;
+  dirty=false;status.textContent='Discarding changes…';dock.classList.remove('is-dirty');setDiscardEnabled(false);location.reload();
+ };
+ discardButtons.forEach(button=>button?.addEventListener('click',discardChanges));
+ const markDirty=()=>{dirty=true;status.textContent='You have unsaved changes.';dock.classList.add('is-dirty');setDiscardEnabled(true)};
  const beforeUnload=event=>{if(dirty){event.preventDefault();event.returnValue=''}};window.addEventListener('beforeunload',beforeUnload);
  form.addEventListener('input',markDirty);form.addEventListener('change',markDirty);form.addEventListener('click',event=>{if(event.target.closest('[data-add-row]'))markDirty()});
- form.addEventListener('submit',event=>{if(event.defaultPrevented)return;if(!window.confirm('Save and publish these website changes?')){event.preventDefault();status.textContent='Save cancelled. Your edits are still here.';dock.classList.add('is-dirty');return}dirty=false;status.textContent='Saving your changes…';dock.classList.remove('is-dirty')});
+ form.addEventListener('submit',event=>{if(event.defaultPrevented)return;if(!window.confirm('Save and publish these website changes?')){event.preventDefault();status.textContent='Save cancelled. Your edits are still here.';dock.classList.add('is-dirty');return}dirty=false;status.textContent='Saving your changes…';dock.classList.remove('is-dirty');setDiscardEnabled(false)});
 });
 
 document.querySelectorAll('[data-add-row]').forEach(button=>button.addEventListener('click',()=>{

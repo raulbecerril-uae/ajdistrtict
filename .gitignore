@@ -27,8 +27,10 @@ desktop.ini
 # Node modules (if added later)
 node_modules/
 
-# Deploy output (generated folder)
+# Deploy output (generated folders — never commit these)
 deploy/
+dist/
+discard_test_final.png
 storage/site.json
 storage/admin.json
 storage/uploads/*

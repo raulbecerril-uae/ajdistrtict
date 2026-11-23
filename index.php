@@ -13,6 +13,7 @@ declare(strict_types=1);
  */
 
 require __DIR__ . '/includes/cms.php';
+require __DIR__ . '/includes/translate.php';
 require __DIR__ . '/includes/actions.php';
 require __DIR__ . '/includes/auth.php';
 require __DIR__ . '/includes/admin-view.php';
@@ -32,7 +33,7 @@ if ($path === '/index.php') cms_redirect('/');
 // ---------------------------------------------------------------- uploaded media
 if (preg_match('~^/media/([^/]+)$~', $path, $match)) {
     $file = cms_media_path($match[1]);
-    if (!$file) { http_response_code(404); exit('Not found'); }
+    if (!$file) { http_response_code(404); exit('غير موجود'); }
     $mime = (new finfo(FILEINFO_MIME_TYPE))->file($file) ?: 'application/octet-stream';
     header('Content-Type: ' . $mime);
     header('Content-Length: ' . (string)filesize($file));
@@ -43,7 +44,7 @@ if (preg_match('~^/media/([^/]+)$~', $path, $match)) {
 
 // ---------------------------------------------------------------- public site
 if (!str_starts_with($path, '/admin')) {
-    if (!in_array($path, ['/', '/terms', '/receipt'], true)) { http_response_code(404); exit('Page not found'); }
+    if (!in_array($path, ['/', '/terms', '/receipt'], true)) { http_response_code(404); exit('الصفحة غير موجودة'); }
     $publicRoute = $path === '/terms' ? 'terms' : ($path === '/receipt' ? 'receipt' : '');
     $html = cms_public_template();
     $html = str_replace(
@@ -70,7 +71,9 @@ if (!cms_is_authenticated()) cms_redirect('/admin/login');
 if ($route === 'export') {
     header('Content-Type: application/json; charset=utf-8');
     header('Content-Disposition: attachment; filename="aj-district-site-backup-' . gmdate('Y-m-d') . '.json"');
-    echo json_encode(cms_site(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    $exportData = cms_site();
+    unset($exportData['ar']); // strip auto-generated translation cache; it is rebuilt on demand
+    echo json_encode($exportData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
 }
 
@@ -81,7 +84,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     try {
         $site = cms_apply_action($action, $site, $_POST, $_FILES);
         cms_save_site($site);
-        cms_flash('Your changes are saved and live on the public site.');
+        cms_flash('Changes saved and published to the public site.');
     } catch (Throwable $e) {
         cms_flash($e->getMessage(), 'error');
     }
@@ -97,7 +100,7 @@ function cms_public_template(): string {
     $html = file_get_contents($file);
     if ($html === false || !str_contains($html, '__AJ_CONFIG__')) {
         http_response_code(500);
-        exit('Public template is missing or malformed: templates/public.html');
+        exit('قالب الموقع العام مفقود أو غير صالح: templates/public.html');
     }
     return $html;
 }

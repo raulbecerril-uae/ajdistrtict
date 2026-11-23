@@ -123,7 +123,7 @@ function admin_render(string $page, array $site, ?array $flash = null): void {
         $s = $site['site']; $body .= '<div class="page-intro"><p>Configure site identity, SEO, social profiles, external links, and navigation labels.</p></div><form method="post" class="panel edit-form"><input type="hidden" name="action" value="save_settings"><h3 class="form-section-title">Site identity &amp; social profiles</h3><div class="field-grid">'.admin_field('site[name]','Website name',$s['name'] ?? '').admin_field('site[logo_alt]','Logo description',$s['logo_alt'] ?? '').admin_field('site[meta_description]','Search description',$s['meta_description'] ?? '','textarea').admin_field('site[contact][whatsapp]','WhatsApp number (country code first)',$s['contact']['whatsapp'] ?? '').admin_field('site[contact][instagram]','Instagram URL',$s['contact']['instagram'] ?? '').admin_field('site[contact][tiktok]','TikTok URL',$s['contact']['tiktok'] ?? '').admin_field('site[contact][snapchat]','Snapchat URL',$s['contact']['snapchat'] ?? '');
         $body .= '</div><h3 class="form-section-title">Other external links</h3><div class="field-grid">'.admin_field('site[links][terms_pdf]','Official terms PDF link (URL or site path)',$s['links']['terms_pdf'] ?? '').admin_field('site[links][external_label]','Additional footer link label',$s['links']['external_label'] ?? '').admin_field('site[links][external_url]','Additional footer link URL',$s['links']['external_url'] ?? '').'</div><h3 class="form-section-title">Navigation labels</h3><div class="field-grid">';
         foreach (($s['navigation'] ?? []) as $key=>$label) $body .= admin_field('site[navigation]['.$key.']','Navigation label: '.ucfirst($key),$label);
-        $body .= '</div>'.admin_save_button($csrf).'</form><div class="panel backup-panel"><div><h3>Site backup</h3><p>Download a copy of your full content configuration, including event cards, FAQs, sponsors, terms, theme settings, and media references.</p></div><a class="button secondary" href="/admin/export"><i class="ph-light ph-download-simple"></i> Export site data</a><form method="post" enctype="multipart/form-data"><input type="hidden" name="action" value="import_site"><input type="hidden" name="_csrf" value="'.cms_h($csrf).'"><label class="button secondary import-button">Import JSON backup<input type="file" name="site_json" accept="application/json,.json" required></label><button class="button primary" type="submit">Restore backup</button></form></div>';
+        $body .= '</div>'.admin_save_button($csrf).'</form><div class="panel backup-panel"><div><h3>Site backup</h3><p>Download a copy of your full content configuration, including event cards, FAQs, sponsors, terms, theme settings, and media references.</p></div><a class="button secondary" href="/admin/export"><i class="ph-light ph-download-simple"></i> Export site data</a><form method="post" enctype="multipart/form-data"><input type="hidden" name="action" value="import_site"><input type="hidden" name="_csrf" value="'.cms_h($csrf).'"><label class="button secondary import-button">Import JSON backup<input type="file" name="site_json" accept="application/json,.json" required></label><button class="button primary" type="submit">Restore backup</button></form></div>'.admin_translation_panel($csrf);
     }
     admin_shell($page, $title, $body, $flash, $site);
 }
@@ -155,3 +155,70 @@ function admin_media_select(string $key, string $label, string $value, array $li
 function admin_image_url(string $path): string { if($path===''||$path==='__none__')return ''; if(preg_match('~^https?://~i',$path)||str_starts_with($path,'/'))return $path; return '/'.ltrim($path,'/'); }
 function admin_event_image_src(string $filename): string { if(str_starts_with($filename,'/media/')){$id=basename($filename);return preg_match('/^[A-Za-z0-9_.-]+$/',$id)&&cms_media_path($id)?'/media/'.$id:'';} $filename=pathinfo(basename(trim($filename)),PATHINFO_FILENAME); if($filename===''||!preg_match('/^[A-Za-z0-9_-]+$/',$filename))return ''; return is_file(__DIR__.'/../photos/'.$filename.'.jpg')?'/photos/'.$filename.'.jpg':''; }
 function admin_option(string $value,string $label,string $selected):string{return '<option value="'.cms_h($value).'" '.($selected===$value?'selected':'').'>'.cms_h($label).'</option>';}
+
+function admin_translation_panel(string $csrf): string
+{
+    $provider  = translate_provider();
+    $googleKey = translate_api_key();
+    $openaiKey = translate_openai_key();
+    $cacheFile = translate_cache_file();
+    $cacheSize = is_file($cacheFile) ? count((array)(json_decode((string)file_get_contents($cacheFile), true) ?: [])) : 0;
+
+    $statusHtml = match ($provider) {
+        'free_mymemory' => '<span style="color:var(--green,#2a9d50)"><i class="ph-light ph-check-circle"></i> Active: Free Instant Translation (No API Key Required)</span>',
+        'google_cloud' => ($googleKey !== ''
+            ? '<span style="color:var(--green,#2a9d50)"><i class="ph-light ph-check-circle"></i> Active: Google Cloud Translation v3 (' . cms_h(substr($googleKey, 0, 6) . '••••') . ')</span>'
+            : '<span style="color:var(--warn,#c05000)"><i class="ph-light ph-warning"></i> Google Cloud selected, but no API key provided.</span>'),
+        'openai' => ($openaiKey !== ''
+            ? '<span style="color:var(--green,#2a9d50)"><i class="ph-light ph-check-circle"></i> Active: OpenAI GPT Model (' . cms_h(substr($openaiKey, 0, 6) . '••••') . ')</span>'
+            : '<span style="color:var(--warn,#c05000)"><i class="ph-light ph-warning"></i> OpenAI selected, but no API key provided.</span>'),
+        default => '<span style="color:var(--green,#2a9d50)"><i class="ph-light ph-check-circle"></i> Active: Free Instant Translation</span>',
+    };
+
+    $html  = '<div class="panel backup-panel" style="margin-top:24px">';
+    $html .= '<div><h3>Automatic Arabic Translation</h3>';
+    $html .= '<p>Translate website copy automatically into Arabic. Translations are cached locally (' . $cacheSize . ' strings in cache) so subsequent saves are fast and incur no extra calls.</p>';
+    $html .= '<p>' . $statusHtml . '</p></div>';
+
+    // ── Translation Settings Form ─────────────────────────────────────────
+    $html .= '<form method="post" class="edit-form" style="width:100%">';
+    $html .= '<input type="hidden" name="action" value="save_translate_settings">';
+    $html .= '<input type="hidden" name="_csrf" value="' . cms_h($csrf) . '">';
+
+    $html .= '<label class="field"><span>Translation Engine / Provider</span>';
+    $html .= '<select name="translate[provider]">';
+    $html .= '<option value="free_mymemory"' . ($provider === 'free_mymemory' ? ' selected' : '') . '>Free Instant Translation (Default - No API Key Needed)</option>';
+    $html .= '<option value="google_cloud"' . ($provider === 'google_cloud' ? ' selected' : '') . '>Google Cloud Translation API v3 (Official API Key)</option>';
+    $html .= '<option value="openai"' . ($provider === 'openai' ? ' selected' : '') . '>OpenAI (GPT-4o-mini / Context-Aware Arabic)</option>';
+    $html .= '</select>';
+    $html .= '<small>Select <strong>Free Instant Translation</strong> if you do not have an API key. You can switch to Google Cloud or OpenAI anytime.</small>';
+    $html .= '</label>';
+
+    $html .= '<div class="field-grid" style="margin-top:12px">';
+    $html .= '<label class="field"><span>Google Cloud API Key (Optional)</span>';
+    $html .= '<input type="password" name="translate[google_api_key]" value="' . cms_h($googleKey) . '" autocomplete="off" placeholder="AIzaSy...">';
+    $html .= '<small>Only required if using Google Cloud Translation provider.</small>';
+    $html .= '</label>';
+
+    $html .= '<label class="field"><span>OpenAI API Key (Optional)</span>';
+    $html .= '<input type="password" name="translate[openai_api_key]" value="' . cms_h($openaiKey) . '" autocomplete="off" placeholder="sk-...">';
+    $html .= '<small>Only required if using OpenAI translation provider.</small>';
+    $html .= '</label>';
+    $html .= '</div>';
+
+    $html .= '<div class="form-actions"><span>Save to apply translation settings.</span>';
+    $html .= '<div class="form-actions-buttons">';
+    $html .= '<button class="button primary" type="submit"><i class="ph-light ph-floppy-disk"></i> Save Translation Settings</button>';
+    $html .= '</div></div></form>';
+
+    // ── Re-translate button ───────────────────────────────────────────────
+    $html .= '<form method="post" style="margin-top:14px;border-top:1px solid rgba(0,0,0,0.08);padding-top:14px">';
+    $html .= '<input type="hidden" name="action" value="retranslate_site">';
+    $html .= '<input type="hidden" name="_csrf" value="' . cms_h($csrf) . '">';
+    $html .= '<button class="button secondary" type="submit"><i class="ph-light ph-translate"></i> Translate all content to Arabic now</button>';
+    $html .= '<small style="display:block;margin-top:6px;color:#888">Runs all CMS content through the active translation provider and refreshes the Arabic site content.</small>';
+    $html .= '</form>';
+
+    $html .= '</div>';
+    return $html;
+}

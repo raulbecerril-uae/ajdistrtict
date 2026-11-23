@@ -78,6 +78,7 @@ function setLang(l){lang=l;const h=document.documentElement;h.lang=l;h.dir=l==='
  document.querySelectorAll('[data-lang-toggle]').forEach(b=>{b.textContent=l==='ar'?'English':'العربية';b.lang=l==='ar'?'en':'ar'});
  const sp=document.querySelector('.spinb textPath');if(sp)sp.textContent=l==='ar'?'✦ · ✦ · ✦ · ✦ · ✦ · ✦ · ✦ · ✦ · ✦ · ✦ ·':'Reserve your space · Reserve your space ·';
  const sb=document.querySelector('.spinb');if(sb)sb.setAttribute('aria-label',l==='ar'?'احجز مساحتك':'Reserve a space');
+ document.dispatchEvent(new CustomEvent('ajd:langchange',{detail:{lang:l}}));
  tkBuild()}
 function switchLang(l){const h=document.documentElement;if(h.dataset.ltb)return;
  if(matchMedia('(prefers-reduced-motion:reduce)').matches){setLang(l);return}
@@ -120,5 +121,5 @@ if(TK){new IntersectionObserver(es=>{vis=es[0].isIntersecting;vis?start():stop()
  TK.addEventListener('pointerup',end);TK.addEventListener('pointercancel',end)}
  reduce.addEventListener&&reduce.addEventListener('change',tkBuild);let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(tkBuild,200)});
  const lf=document.getElementById('left');if(lf)new MutationObserver(()=>{if(items().join('|')!==lastTxt)tkBuild()}).observe(lf,{childList:true,characterData:true,subtree:true})}
-let init='en';try{init=localStorage.getItem('ajl')||(/^ar/i.test(navigator.language||'')?'ar':'en')}catch(e){}
+let init='en';try{init=localStorage.getItem('ajl')||'en'}catch(e){}
 setLang(init)})();

@@ -33,15 +33,15 @@ function cms_merge(array $base, array $stored): array {
 
 function cms_save_site(array $site): void {
     if (!is_dir(cms_storage()) && !mkdir(cms_storage(), 0750, true) && !is_dir(cms_storage())) {
-        throw new RuntimeException('The storage folder could not be created.');
+        throw new RuntimeException('تعذّر إنشاء مجلد التخزين.');
     }
     $json = json_encode($site, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-    if ($json === false) throw new RuntimeException('The site settings could not be encoded.');
+    if ($json === false) throw new RuntimeException('تعذّر تحويل إعدادات الموقع إلى صيغة JSON.');
     $target = cms_site_file();
     $temp = $target . '.' . bin2hex(random_bytes(5)) . '.tmp';
     if (file_put_contents($temp, $json, LOCK_EX) === false || !rename($temp, $target)) {
         @unlink($temp);
-        throw new RuntimeException('The site settings could not be saved. Check storage folder permissions.');
+        throw new RuntimeException('تعذّر حفظ إعدادات الموقع. تحقق من صلاحيات مجلد التخزين.');
     }
     @chmod($target, 0640);
 }
@@ -55,7 +55,7 @@ function cms_verify_csrf(): void {
     $sent = (string)($_POST['_csrf'] ?? '');
     if ($sent === '' || !hash_equals(cms_csrf(), $sent)) {
         http_response_code(419);
-        exit('Your session expired. Return to the dashboard and try again.');
+        exit('انتهت صلاحية جلستك. ارجع إلى لوحة التحكم وحاول مرة أخرى.');
     }
 }
 function cms_admin_exists(): bool { return is_file(cms_admin_file()); }
@@ -89,20 +89,20 @@ function cms_is_local_request(): bool {
 }
 
 function cms_upload_media(array $file): array {
-    if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) throw new RuntimeException('Choose a file to upload.');
-    if (($file['size'] ?? 0) > 8 * 1024 * 1024) throw new RuntimeException('Each image must be 8 MB or smaller.');
+    if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) throw new RuntimeException('اختر ملفاً لرفعه.');
+    if (($file['size'] ?? 0) > 8 * 1024 * 1024) throw new RuntimeException('يجب ألا يتجاوز حجم كل صورة 8 ميجابايت.');
     $tmp = (string)($file['tmp_name'] ?? '');
-    if ($tmp === '' || !is_uploaded_file($tmp)) throw new RuntimeException('The upload could not be verified.');
+    if ($tmp === '' || !is_uploaded_file($tmp)) throw new RuntimeException('تعذّر التحقق من الملف المرفوع.');
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     $mime = $finfo->file($tmp);
     $allowed = ['image/jpeg'=>'jpg','image/png'=>'png','image/webp'=>'webp','image/gif'=>'gif'];
-    if (!isset($allowed[$mime])) throw new RuntimeException('Upload a JPG, PNG, WEBP, or GIF image.');
+    if (!isset($allowed[$mime])) throw new RuntimeException('ارفع صورة بصيغة JPG أو PNG أو WEBP أو GIF.');
     $info = @getimagesize($tmp);
-    if (!$info || $info[0] > 9000 || $info[1] > 9000) throw new RuntimeException('The image dimensions are invalid or too large.');
+    if (!$info || $info[0] > 9000 || $info[1] > 9000) throw new RuntimeException('أبعاد الصورة غير صالحة أو كبيرة جداً.');
     $folder = cms_storage() . DIRECTORY_SEPARATOR . 'uploads';
-    if (!is_dir($folder) && !mkdir($folder, 0750, true) && !is_dir($folder)) throw new RuntimeException('The media folder could not be created.');
+    if (!is_dir($folder) && !mkdir($folder, 0750, true) && !is_dir($folder)) throw new RuntimeException('تعذّر إنشاء مجلد الوسائط.');
     $name = gmdate('Ymd') . '-' . bin2hex(random_bytes(12)) . '.' . $allowed[$mime];
-    if (!move_uploaded_file($tmp, $folder . DIRECTORY_SEPARATOR . $name)) throw new RuntimeException('The image could not be stored. Check folder permissions.');
+    if (!move_uploaded_file($tmp, $folder . DIRECTORY_SEPARATOR . $name)) throw new RuntimeException('تعذّر تخزين الصورة. تحقق من صلاحيات المجلد.');
     @chmod($folder . DIRECTORY_SEPARATOR . $name, 0640);
     return ['id'=>$name,'name'=>basename((string)($file['name'] ?? $name)),'path'=>'/media/' . $name,'mime'=>$mime,'size'=>(int)$file['size'],'uploaded'=>gmdate('c')];
 }

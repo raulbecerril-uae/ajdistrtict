@@ -24,27 +24,38 @@ function cms_clean_row(mixed $row): array {
 
 /** Applies a dashboard action and returns the updated site configuration. */
 function cms_apply_action(string $action, array $site, array $post, array $files): array {
-    return match ($action) {
-        'save_copy' => cms_save_copy($site, $post),
-        'save_event' => cms_save_event($site, $post),
+    $translationActions = ['save_copy','save_event','save_sponsors','save_faq','save_settings'];
+    $updated = match ($action) {
+        'save_copy'       => cms_save_copy($site, $post),
+        'save_event'      => cms_save_event($site, $post),
         'save_appearance' => cms_save_appearance($site, $post),
-        'save_sections' => cms_save_sections($site, $post),
-        'save_sponsors' => cms_save_sponsors($site, $post),
-        'save_faq' => cms_save_faq($site, $post),
-        'save_terms' => cms_save_terms($site, $post),
-        'save_settings' => cms_save_settings($site, $post),
-        'upload_media' => cms_upload_media_batch($site, $files),
-        'delete_media' => cms_delete_media_action($site, $post, $files),
-        'import_site' => cms_import_site_action($site, $files),
-        default => throw new RuntimeException('Unknown dashboard action.'),
+        'save_sections'   => cms_save_sections($site, $post),
+        'save_sponsors'   => cms_save_sponsors($site, $post),
+        'save_faq'        => cms_save_faq($site, $post),
+        'save_terms'      => cms_save_terms($site, $post),
+        'save_settings'   => cms_save_settings($site, $post),
+        'save_translate_settings' => cms_save_translate_settings($site, $post),
+        'retranslate_site'        => $site, // triggers re-translate below
+        'upload_media'    => cms_upload_media_batch($site, $files),
+        'delete_media'    => cms_delete_media_action($site, $post, $files),
+        'import_site'     => cms_import_site_action($site, $files),
+        default           => throw new RuntimeException('إجراء غير معروف في لوحة التحكم.'),
     };
+    // Auto-translate on content-changing saves (best-effort; never blocks a save)
+    $shouldTranslate = in_array($action, $translationActions, true) || $action === 'retranslate_site' || $action === 'import_site';
+    $provider = translate_provider();
+    $canTranslate = $provider === 'free_mymemory' || ($provider === 'google_cloud' && translate_api_key() !== '') || ($provider === 'openai' && translate_openai_key() !== '');
+    if ($shouldTranslate && $canTranslate) {
+        try { $updated = translate_site_to_arabic($updated); } catch (Throwable) { /* non-fatal */ }
+    }
+    return $updated;
 }
 
 /** Dashboard page each action redirects back to. */
 function cms_action_page(string $action): string {
     return match ($action) {
         'save_copy' => 'content',
-        'save_settings', 'import_site' => 'settings',
+        'save_settings', 'import_site', 'save_translate_settings', 'retranslate_site' => 'settings',
         'save_event' => 'events',
         'save_appearance' => 'appearance',
         'save_sections' => 'sections',
@@ -206,7 +217,7 @@ function cms_upload_media_batch(array $site, array $files): array {
 function cms_delete_media_action(array $site, array $post, array $files): array {
     $id = (string)($post['media_id'] ?? '');
     $path = cms_media_path($id);
-    if (!$path) throw new RuntimeException('Media file not found.');
+    if (!$path) throw new RuntimeException('ملف الوسائط غير موجود.');
     foreach ($site['appearance']['images'] as $key => $image) {
         if ($image === '/media/' . $id) $site['appearance']['images'][$key] = '';
     }
@@ -224,9 +235,39 @@ function cms_delete_media_action(array $site, array $post, array $files): array 
 function cms_import_site_action(array $site, array $files): array {
     $f = $files['site_json'] ?? [];
     if (($f['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK || ($f['size'] ?? 0) > 2 * 1024 * 1024) {
-        throw new RuntimeException('Choose a JSON backup up to 2 MB.');
+        throw new RuntimeException('اختر ملف نسخة احتياطية بصيغة JSON بحجم لا يتجاوز 2 ميجابايت.');
     }
     $incoming = json_decode((string)file_get_contents((string)$f['tmp_name']), true);
-    if (!is_array($incoming)) throw new RuntimeException('That file is not valid site JSON.');
+    if (!is_array($incoming)) throw new RuntimeException('الملف ليس ملف JSON صالحاً لإعدادات الموقع.');
     return cms_merge(cms_default_site(), $incoming);
+}
+
+/**
+ * Saves translation settings (provider and optional API keys) to storage/ajd_settings.json.
+ * Returns the unchanged $site array — translation settings are stored
+ * separately and are never exported in the site backup JSON.
+ */
+function cms_save_translate_settings(array $site, array $post): array
+{
+    $settings = translate_load_settings();
+    $provider = (string)($post['translate']['provider'] ?? 'free_mymemory');
+    if (!in_array($provider, ['free_mymemory', 'google_cloud', 'openai'], true)) {
+        $provider = 'free_mymemory';
+    }
+
+    $googleKey = trim((string)($post['translate']['google_api_key'] ?? ''));
+    if ($googleKey !== '' && !preg_match('/^[A-Za-z0-9_\-]{20,60}$/', $googleKey)) {
+        throw new RuntimeException('يبدو أن مفتاح Google API غير صالح. تحقق منه وحاول مرة أخرى.');
+    }
+
+    $openaiKey = trim((string)($post['translate']['openai_api_key'] ?? ''));
+    if ($openaiKey !== '' && !preg_match('/^[A-Za-z0-9_\-]{20,120}$/', $openaiKey)) {
+        throw new RuntimeException('يبدو أن مفتاح OpenAI API غير صالح. تحقق منه وحاول مرة أخرى.');
+    }
+
+    $settings['translate_provider'] = $provider;
+    $settings['google_translate_api_key'] = $googleKey;
+    $settings['openai_api_key'] = $openaiKey;
+    translate_save_settings($settings);
+    return $site;
 }
