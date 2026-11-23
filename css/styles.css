@@ -8,7 +8,11 @@
 [data-theme=majlis]{--panel:#4B1E2B;--panel2:#632A3B;--deep:#35121D;--on:#F8E9DD;--acc:#F2B94B;--acc-on:#3A1520}
 [data-theme=souq]{--panel:#B5532E;--panel2:#9C4524;--deep:#7F361B;--on:#FFF4ED;--acc:#F6C879;--acc-on:#3D1F15}
 [data-theme=pearl]{--panel:#E9EFEC;--panel2:#D5E0DC;--deep:#DCE7E3;--on:#123432;--acc:#0E6B6B;--acc-on:#fff}
-[data-theme=pearl] .logo,[data-theme=dune] .logo{filter:brightness(0) opacity(.85)}
+/* Brand palette themes */
+[data-theme=grove]{--panel:#0B4721;--panel2:#134F28;--deep:#073318;--on:#F7EAD9;--acc:#C4973B;--acc-on:#0B4721}
+[data-theme=ember]{--panel:#A01925;--panel2:#B5202E;--deep:#78111B;--on:#F7EAD9;--acc:#C4973B;--acc-on:#6B3A1F}
+[data-theme=barley]{--panel:#E0C39A;--panel2:#CDB48A;--deep:#C4A87A;--on:#6B3A1F;--acc:#0B4721;--acc-on:#F7EAD9}
+[data-theme=pearl] .logo,[data-theme=dune] .logo,[data-theme=barley] .logo{filter:brightness(0) opacity(.85)}
 *{box-sizing:border-box;margin:0}[hidden]{display:none!important}
 html{scroll-behavior:smooth}
 body{font:17px/1.6 var(--sans);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;transition:background .4s}
