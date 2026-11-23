@@ -854,6 +854,7 @@ img{-webkit-user-drag:none}
 @media(max-width:600px){.shot{height:400px}.spinb{width:92px;height:92px}.shot .slides{width:62%}.float{left:0;gap:12px;padding:10px 14px}.float b{font-size:1.15rem}}
 /* ---- v17: countdown tiles ---- */
 .float{left:3%;bottom:-18px;display:grid;grid-template-columns:repeat(4,auto);gap:8px;padding:14px 14px 14px;border-radius:20px;background:color-mix(in srgb,var(--panel) 94%,transparent);border:1px solid color-mix(in srgb,var(--on) 22%,transparent)}
+.cd-event{grid-column:1/-1;display:block;font:700 1.25rem/1.2 var(--serif);color:var(--acc);margin:0 0 4px 4px;letter-spacing:.01em}
 .cdl{grid-column:1/-1;display:flex;align-items:center;gap:9px;margin:0 0 2px 4px;font:600 13.5px var(--sans);color:var(--on)}
 .cdl i{width:8px;height:8px;border-radius:50%;background:var(--acc);animation:live 1.6s ease-out infinite}
 @keyframes live{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--acc) 60%,transparent)}100%{box-shadow:0 0 0 9px transparent}}
@@ -864,7 +865,7 @@ img{-webkit-user-drag:none}
 .float span{display:block;margin-top:5px;font-size:11.5px;opacity:.7}
 .float>div:last-child b{color:var(--acc)}
 .cdl span{display:inline;margin:0;font-size:inherit;opacity:1}
-@media(max-width:600px){.float{left:0;gap:6px;padding:11px}.float>div:not(.cdl){min-width:56px;padding:8px 4px}.float b{font-size:1.5rem}}
+@media(max-width:600px){.float{left:0;gap:6px;padding:11px}.cd-event{font-size:1.05rem;margin-bottom:2px}.float>div:not(.cdl){min-width:56px;padding:8px 4px}.float b{font-size:1.5rem}}
 /* ---- v18: tighter section rhythm, thin hero edges, light 3D ground, 3D view styles ---- */
 .shot .slides,.shot .mini,.shot .mini2{border:0;border-radius:18px;box-shadow:0 0 0 1px rgba(255,255,255,.28),0 24px 48px -18px rgba(0,0,0,.6)}
 section{padding:60px 0}
@@ -897,7 +898,7 @@ h2{margin-bottom:8px}.sub{line-height:1.5}
 .stage[data-st=wire]{background:var(--deep)}
 /* ---- v19: ticker, Arabic / RTL, star ornaments ---- */
 :root{--star:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4.5' y='4.5' width='15' height='15'/%3E%3Crect x='4.5' y='4.5' width='15' height='15' transform='rotate(45 12 12)'/%3E%3C/svg%3E")}
-section h2::before,footer .fcta h2::before{content:"";display:block;width:18px;height:18px;margin-bottom:14px;background:currentColor;opacity:.45;-webkit-mask:var(--star) center/contain no-repeat;mask:var(--star) center/contain no-repeat}
+section h2::before,footer .fcta h2::before{display:none!important}
 /* ticker */
 .tk{position:relative;background:var(--deep);color:var(--on);border-block:1px solid color-mix(in srgb,var(--on) 14%,transparent);direction:ltr}
 .tksr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -938,7 +939,7 @@ html[dir=rtl] .ph-arrow-right:before,html[dir=rtl] .ph-arrow-left:before,html[di
 @media(max-width:600px){.tkv{padding:20px 0}}
 /* compact section heads */
 #evtabs{display:none}
-section h2::before{width:14px;height:14px;margin-bottom:8px}
+section h2::before{display:none!important}
 #location h2,#book h2{font-size:clamp(1.7rem,3.2vw,2.3rem);margin-bottom:4px}
 #location .sub,#book .sub{font-size:15px}
 .locsec{padding:44px 0}#book{padding:48px 0 70px}.locg{margin-top:14px}.bhd{margin-bottom:14px;gap:10px 24px}
@@ -981,7 +982,8 @@ html[dir=rtl] .evc{direction:rtl}
 @media(max-width:600px){.evg .evc{flex-basis:82%}.evar{width:38px;height:38px}.evar.prev{left:2px}.evar.next{right:2px}}
 /* ---- v22: one-row 3D toolbar, readable booking header, blended + draggable hero photos ---- */
 #book h2{line-height:1.12;text-wrap:balance}
-#book h2::before{background:var(--acc);opacity:1}
+#book h2::before{display:none!important}
+.spstrip{display:none!important}
 #book .sub.mut{color:color-mix(in srgb,var(--on) 78%,transparent)}
 .vtools{display:flex;flex-wrap:nowrap;justify-content:space-between;align-items:center;gap:8px;padding:2px;margin:0 0 10px;overflow-x:auto;scrollbar-width:none}
 .vtools::-webkit-scrollbar{display:none}

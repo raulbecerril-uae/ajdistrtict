@@ -39,6 +39,7 @@ text('#hero-description',ar(D.home?.hero_intro,AR.home?.hero_intro));
 text('#hero-date',ev('short_date'));
 text('#hero-hours',`${ev('name')||''}, ${ev('hours')||''}`);
 text('#hero-city',ev('city'));text('#hero-venue',ev('venue'));
+text('#cd-event',ev('name')||'');
 text('.plate b',`${ev('name')||''} ${(String(ev('date')||'').match(/20\d\d/)||[''])[0]}`.trim());
 text('.plate span',`${ev('venue')||''}, ${ev('city')||''} · ${ev('date')||''}`);
 
