@@ -905,9 +905,19 @@ section h2::before,footer .fcta h2::before{display:none!important}
 .tkv{overflow:hidden;padding:15px 0;-webkit-mask:linear-gradient(90deg,#0000,#000 7%,#000 93%,#0000);mask:linear-gradient(90deg,#0000,#000 7%,#000 93%,#0000)}
 .tkt{display:flex;width:max-content;will-change:transform}
 .tkg{display:flex;align-items:center;flex:none}
-.tki{font:500 clamp(1.05rem,2vw,1.4rem)/1.2 var(--serif);white-space:nowrap;padding:0 24px;unicode-bidi:isolate}
-.tkg i{width:13px;height:13px;flex:none;background:var(--acc);-webkit-mask:var(--star) center/contain no-repeat;mask:var(--star) center/contain no-repeat}
-@media(max-width:600px){.tkv{padding:11px 0}.tki{font-size:1rem;padding:0 18px}.tkg i{width:11px;height:11px}}
+.tki{font:500 clamp(1.05rem,2vw,1.4rem)/1.2 var(--serif);white-space:nowrap;padding:0 18px;unicode-bidi:isolate}
+.tki.t-serif-bold{font-family:var(--serif);font-weight:700;font-size:clamp(1.15rem,2.2vw,1.55rem)}
+.tki.t-italic{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(1.1rem,2.1vw,1.5rem);color:color-mix(in srgb,var(--on) 92%,transparent)}
+.tki.t-sans-caps{font-family:var(--sans);font-weight:800;text-transform:uppercase;letter-spacing:.14em;font-size:clamp(.88rem,1.7vw,1.1rem)}
+.tki.t-gold{font-family:var(--serif);font-weight:700;color:var(--acc);font-size:clamp(1.2rem,2.3vw,1.6rem)}
+.tki.t-headline{font-family:var(--sans);font-weight:900;text-transform:uppercase;letter-spacing:.18em;font-size:clamp(.85rem,1.6vw,1.08rem);color:var(--acc)}
+.tki.t-sans-light{font-family:var(--sans);font-weight:400;letter-spacing:.08em;font-size:clamp(.95rem,1.8vw,1.2rem);opacity:.85}
+.tki.t-serif-italic-gold{font-family:var(--serif);font-style:italic;font-weight:600;color:var(--acc);font-size:clamp(1.15rem,2.2vw,1.55rem)}
+.tki.t-script{font-family:var(--serif);font-weight:300;font-style:italic;letter-spacing:.04em;font-size:clamp(1.1rem,2.1vw,1.45rem);opacity:.9}
+
+.tkg i{width:22px;height:22px;flex:none;display:inline-flex;align-items:center;justify-content:center;margin:0 12px;background:none;-webkit-mask:none;mask:none}
+.tkg i img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.35))}
+@media(max-width:600px){.tkv{padding:11px 0}.tki{font-size:1rem;padding:0 12px}.tkg i{width:16px;height:16px;margin:0 8px}}
 @media(prefers-reduced-motion:reduce){.tkv{-webkit-mask:none;mask:none}.tkt{width:auto;justify-content:center;transform:none!important}.tkg{flex-wrap:wrap;justify-content:center}.tkg+.tkg{display:none}}
 /* language button */
 .langb{border:0;cursor:pointer;border-radius:99px;padding:7px 14px;font:600 13.5px var(--sans);color:inherit;background:none;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--on) 28%,transparent);transition:background .25s,color .25s}
@@ -920,6 +930,13 @@ html[lang=ar] *{letter-spacing:normal!important}
 html[lang=ar] h1,html[lang=ar] h2,html[lang=ar] h3{line-height:1.35;font-weight:600}
 html[lang=ar] .hero h1{font-size:clamp(2.1rem,5vw,4.2rem)}
 html[lang=ar] body{line-height:1.75}
+html[lang=ar] .tki.t-serif-bold{font-family:'Noto Naskh Arabic',var(--serif);font-weight:700}
+html[lang=ar] .tki.t-italic{font-family:'Aref Ruqaa',var(--serif);font-style:normal;font-weight:700;font-size:clamp(1.25rem,2.4vw,1.75rem);color:var(--acc)}
+html[lang=ar] .tki.t-sans-caps{font-family:'IBM Plex Sans Arabic',var(--sans);font-weight:700;letter-spacing:normal}
+html[lang=ar] .tki.t-gold{font-family:'Aref Ruqaa',var(--serif);font-weight:700;color:var(--acc);font-size:clamp(1.3rem,2.5vw,1.8rem)}
+html[lang=ar] .tki.t-headline{font-family:'IBM Plex Sans Arabic',var(--sans);font-weight:700;letter-spacing:normal;color:var(--acc)}
+html[lang=ar] .tki.t-script{font-family:'Noto Naskh Arabic',var(--serif);font-weight:500;font-style:normal}
+html[lang=ar] .tki.t-serif-italic-gold{font-family:'Aref Ruqaa',var(--serif);font-style:normal;font-weight:700;color:var(--acc)}
 html[dir=rtl] .stage,html[dir=rtl] .plan{direction:ltr}
 html[dir=rtl] .stage .hint,html[dir=rtl] .plan .pt{direction:rtl}
 html[dir=rtl] .fi>i{left:auto;right:14px}html[dir=rtl] .fi input{padding-left:16px;padding-right:44px}

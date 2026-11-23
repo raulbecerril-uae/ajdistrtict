@@ -88,11 +88,44 @@ document.addEventListener('click',e=>{if(e.target.closest('[data-lang-toggle]'))
 /* ticker: always drifts, speeds up with scroll, reverses when you scroll back up */
 const TR=document.getElementById('tkt'),TK=document.getElementById('tk'),reduce=matchMedia('(prefers-reduced-motion:reduce)');
 let dragging=false,els=[],gw=1,x=0,vel=0,dir=1,lastY=scrollY,paused=false,vis=true,lastT=0,run=false,lastTxt='';
-function items(){const n=(document.getElementById('left')||{}).textContent||'11';return lang==='ar'?['الحجز مفتوح','بقيت '+n+' مساحة','27–29 نوفمبر','حديقة الصفيا، عجمان','من 4 إلى 11 مساءً']:['Booking open',n+' spaces left','27–29 Nov','Al Safia Park, Ajman','4 to 11 pm']}
+const SEPS=['assets/art5.png','assets/icon3.png','assets/icon5.png','assets/asset8.png'];
+function items(){
+  const n=(document.getElementById('left')||{}).textContent||'11';
+  if(lang==='ar'){
+    return [
+      {t:'حيث تلتقي الأفكار بالناس',typo:'t-gold'},
+      {t:'فعالية ديمو 2026',typo:'t-serif-bold'},
+      {t:'الحجز مفتوح الآن',typo:'t-headline'},
+      {t:'حديقة الصفيا · عجمان',typo:'t-sans-caps'},
+      {t:'27–29 نوفمبر',typo:'t-gold'},
+      {t:'صُنّاع وعلامات تجارية وزوار شغوفون',typo:'t-italic'},
+      {t:'من 4:00 إلى 11:00 مساءً',typo:'t-sans-light'},
+      {t:'بقيت '+n+' مساحة فقط',typo:'t-headline'},
+      {t:'معرض ثقافي خارجي استثنائي',typo:'t-serif-bold'},
+      {t:'أجواء ساحرة بين النخيل',typo:'t-script'},
+      {t:'قهوة ومأكولات ومشاريع إبداعية',typo:'t-serif-italic-gold'},
+      {t:'احجز مساحتك اليوم',typo:'t-gold'}
+    ];
+  }
+  return [
+    {t:'Where Ideas Meet People',typo:'t-gold'},
+    {t:'Demo Event 2026',typo:'t-serif-bold'},
+    {t:'Booking Open Now',typo:'t-headline'},
+    {t:'Al Safia Park · Ajman',typo:'t-sans-caps'},
+    {t:'27–29 November',typo:'t-gold'},
+    {t:'Makers, Brands & Curious Crowds',typo:'t-italic'},
+    {t:'4:00 PM to 11:00 PM',typo:'t-sans-light'},
+    {t:'Only '+n+' Spaces Left',typo:'t-headline'},
+    {t:'Outdoor Cultural Exhibition',typo:'t-serif-bold'},
+    {t:'Live Under the Palm Trees',typo:'t-script'},
+    {t:'Artisan Coffee & Food Trucks',typo:'t-serif-italic-gold'},
+    {t:'Reserve Your Space Today',typo:'t-gold'}
+  ];
+}
 let LAM=600,AMP=18,BH=50;
-function tkBuild(){if(!TR)return;const it=items();lastTxt=it.join('|');document.getElementById('tksr').textContent=it.join(' · ');
+function tkBuild(){if(!TR)return;const it=items();lastTxt=it.map(x=>x.t).join('|');document.getElementById('tksr').textContent=it.map(x=>x.t).join(' · ');
  const units=t=>lang==='ar'?t.split(' ').reverse().map(w=>'<span class="tkw">'+w+'</span>').join('<span class="tkw tks"> </span>'):[...t].map(c=>c===' '?'<span class="tkw tks"> </span>':'<span class="tkw">'+c+'</span>').join('');
- const one=it.map(t=>'<span class="tki" data-notr>'+units(t)+'</span><i aria-hidden="true"></i>').join('');els=[];
+ const one=it.map((item,idx)=>{const sep=SEPS[idx%SEPS.length];return '<span class="tki '+item.typo+'" data-notr>'+units(item.t)+'</span><i aria-hidden="true"><img src="'+sep+'" alt=""></i>'}).join('');els=[];
  const sv=document.getElementById('tkb');
  if(reduce.matches){TR.innerHTML='<div class="tkg">'+one+'</div>';if(sv)sv.innerHTML='';return}
  const m=innerWidth<600;AMP=m?11:18;BH=m?40:52;LAM=Math.max(340,Math.round(innerWidth/2.3));const H=2*AMP+BH+10;
@@ -120,6 +153,6 @@ if(TK){new IntersectionObserver(es=>{vis=es[0].isIntersecting;vis?start():stop()
  const end=e=>{if(e.pointerId!==pid)return;dragging=false;pid=null;TK.classList.remove('dragging')};
  TK.addEventListener('pointerup',end);TK.addEventListener('pointercancel',end)}
  reduce.addEventListener&&reduce.addEventListener('change',tkBuild);let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(tkBuild,200)});
- const lf=document.getElementById('left');if(lf)new MutationObserver(()=>{if(items().join('|')!==lastTxt)tkBuild()}).observe(lf,{childList:true,characterData:true,subtree:true})}
+ const lf=document.getElementById('left');if(lf)new MutationObserver(()=>{if(items().map(x=>x.t).join('|')!==lastTxt)tkBuild()}).observe(lf,{childList:true,characterData:true,subtree:true})}
 let init='en';try{init=localStorage.getItem('ajl')||'en'}catch(e){}
 setLang(init)})();
