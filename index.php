@@ -47,11 +47,12 @@ if (!str_starts_with($path, '/admin')) {
     if (!in_array($path, ['/', '/terms', '/receipt'], true)) { http_response_code(404); exit('الصفحة غير موجودة'); }
     $publicRoute = $path === '/terms' ? 'terms' : ($path === '/receipt' ? 'receipt' : '');
     $html = cms_public_template();
+    $site = cms_site();
+    $activeTheme = $site['appearance']['theme'] ?? 'gulf';
     $html = str_replace(
-        ['__AJ_ROUTE__', '__AJ_CONFIG__'],
-        [json_encode($publicRoute), cms_site_json()],
-        $html
-    );
+        ['__AJ_ROUTE__', '__AJ_CONFIG__', '__AJ_THEME__'],
+        [json_encode($publicRoute), cms_site_json(), htmlspecialchars($activeTheme, ENT_QUOTES)]
+    , $html);
     header('Content-Type: text/html; charset=utf-8');
     echo $html;
     exit;

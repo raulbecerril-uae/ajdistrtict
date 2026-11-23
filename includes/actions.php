@@ -98,7 +98,7 @@ function cms_save_event(array $site, array $post): array {
 
 function cms_save_appearance(array $site, array $post): array {
     $a = (array)($post['appearance'] ?? []);
-    $allowedThemes = ['gulf', 'skyline', 'dune', 'oasis', 'falcon', 'majlis', 'souq', 'pearl', 'custom'];
+    $allowedThemes = ['gulf', 'skyline', 'dune', 'oasis', 'falcon', 'majlis', 'souq', 'pearl', 'grove', 'ember', 'barley', 'custom'];
     if (in_array($a['theme'] ?? '', $allowedThemes, true)) $site['appearance']['theme'] = $a['theme'];
 
     foreach (($a['colors'] ?? []) as $key => $color) {
@@ -109,10 +109,12 @@ function cms_save_appearance(array $site, array $post): array {
 
     // Preset themes override custom colors; only "custom" keeps picked colors.
     $presetColors = [
-        'gulf' => ['#0E2B2C', '#F0B35C'], 'skyline' => ['#101D3A', '#6CC6FF'],
-        'dune' => ['#EDE0C8', '#A5481F'], 'oasis' => ['#14301F', '#B9D96A'],
-        'falcon' => ['#23201D', '#E2B04F'], 'majlis' => ['#4B1E2B', '#F2B94B'],
-        'souq' => ['#B5532E', '#F6C879'], 'pearl' => ['#E9EFEC', '#0E6B6B'],
+        'gulf'    => ['#0E2B2C', '#F0B35C'], 'skyline' => ['#101D3A', '#6CC6FF'],
+        'dune'    => ['#EDE0C8', '#A5481F'], 'oasis'   => ['#14301F', '#B9D96A'],
+        'falcon'  => ['#23201D', '#E2B04F'], 'majlis'  => ['#4B1E2B', '#F2B94B'],
+        'souq'    => ['#B5532E', '#F6C879'], 'pearl'   => ['#E9EFEC', '#0E6B6B'],
+        'grove'   => ['#0B4721', '#C4973B'], 'ember'   => ['#A01925', '#C4973B'],
+        'barley'  => ['#E0C39A', '#0B4721'],
     ];
     $selectedTheme = $site['appearance']['theme'];
     if (isset($presetColors[$selectedTheme])) {
