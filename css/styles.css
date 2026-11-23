@@ -642,8 +642,8 @@ img[src^="photos/"]{background:color-mix(in srgb,var(--sand) 70%,#bba98a)}
 @media(max-width:900px){.gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px}.gal figure:nth-child(11n+4){grid-column:auto}}
 .how img.hi{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:22px;margin-bottom:20px}
 .spons{position:relative;overflow:hidden}
-.spons:before,footer:before{content:"";position:absolute;inset:0 0 auto;background:var(--bg) center/cover no-repeat;pointer-events:none}
-.spons:before{height:100%;opacity:.14}
+footer:before{content:"";position:absolute;inset:0 0 auto;background:var(--bg) center/cover no-repeat;pointer-events:none}
+.spons:before{display:none!important}
 .spons>.wrap,footer>.wrap{position:relative}
 footer{position:relative;overflow:hidden}
 footer:before{height:520px;opacity:.5;-webkit-mask:linear-gradient(#000,#0000);mask:linear-gradient(#000,#0000)}
@@ -1203,8 +1203,8 @@ details .dbody{overflow:hidden}
  details summary i{transition:transform .38s cubic-bezier(.2,.8,.2,1)}
 }
 
-/* sponsor backdrop (was inline --bg; url() resolves against this stylesheet) */
-.spons{--bg:url(../photos/DSC04812.jpg)}
+/* sponsor backdrop removed - solid theme panel colors only */
+.hbg{display:none!important}
 html[data-theme=custom][data-custom-light=true] .logo{filter:brightness(0) opacity(.85)}
 
 /* Booking sits on a white canvas below the event marquee. */
