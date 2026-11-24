@@ -853,7 +853,7 @@ img{-webkit-user-drag:none}
 @media(max-width:900px){.hero{min-height:0;padding-bottom:64px}.shot{height:440px;margin-top:20px}}
 @media(max-width:600px){.shot{height:400px}.spinb{width:92px;height:92px}.shot .slides{width:62%}.float{left:0;gap:12px;padding:10px 14px}.float b{font-size:1.15rem}}
 /* ---- v17: countdown tiles ---- */
-.float{left:3%;bottom:-18px;display:grid;grid-template-columns:repeat(4,auto);gap:8px;padding:14px 14px 14px;border-radius:20px;background:color-mix(in srgb,var(--panel) 94%,transparent);border:1px solid color-mix(in srgb,var(--on) 22%,transparent)}
+.float{left:3%;bottom:-18px;display:grid;grid-template-columns:repeat(4,auto);gap:8px;padding:14px 14px 14px;border-radius:20px;background:color-mix(in srgb,var(--panel) 94%,transparent);border:1px solid color-mix(in srgb,var(--on) 22%,transparent);box-shadow:none!important;filter:none!important}
 .cd-event{grid-column:1/-1;display:block;font:700 1.25rem/1.2 var(--serif);color:var(--acc);margin:0 0 4px 4px;letter-spacing:.01em}
 .cdl{grid-column:1/-1;display:flex;align-items:center;gap:9px;margin:0 0 2px 4px;font:600 13.5px var(--sans);color:var(--on)}
 .cdl i{width:8px;height:8px;border-radius:50%;background:var(--acc);animation:live 1.6s ease-out infinite}
@@ -867,7 +867,7 @@ img{-webkit-user-drag:none}
 .cdl span{display:inline;margin:0;font-size:inherit;opacity:1}
 @media(max-width:600px){.float{left:0;gap:6px;padding:11px}.cd-event{font-size:1.05rem;margin-bottom:2px}.float>div:not(.cdl){min-width:56px;padding:8px 4px}.float b{font-size:1.5rem}}
 /* ---- v18: tighter section rhythm, thin hero edges, light 3D ground, 3D view styles ---- */
-.shot .slides,.shot .mini,.shot .mini2{border:0;border-radius:18px;box-shadow:0 0 0 1px rgba(255,255,255,.28),0 24px 48px -18px rgba(0,0,0,.6)}
+.shot .slides,.shot .mini,.shot .mini2{border:0;border-radius:18px;box-shadow:none!important;filter:none!important}
 section{padding:60px 0}
 h2{margin-bottom:8px}.sub{line-height:1.5}
 .evf{margin-top:24px}.evh{margin:36px 0 14px}.tiers{margin-top:28px}.how{margin-top:28px;gap:32px}.evtabs{margin:18px 0 14px}.locg{gap:16px}
@@ -1041,8 +1041,8 @@ html[dir=rtl] .evc{direction:rtl}
 .hero .wrap{flex:1;align-content:center;padding-bottom:20px}
 .hero>.tk{position:relative;z-index:2;background:transparent;border:0;margin:0;padding:0 0 clamp(28px,4vw,56px);width:100%}
 .shot::before,.shot::after{content:none!important;display:none!important}
-.shot .ph{-webkit-mask:none;mask:none;overflow:hidden;border:0;border-radius:22px;box-shadow:0 0 0 2px color-mix(in srgb,#fff 70%,transparent),0 26px 50px -20px rgba(0,0,0,.65)}
-.shot .ph.dragging{box-shadow:0 0 0 2px color-mix(in srgb,#fff 85%,transparent),0 40px 70px -24px rgba(0,0,0,.75)}
+.shot .ph{-webkit-mask:none;mask:none;overflow:hidden;border:0;border-radius:22px;box-shadow:none!important;filter:none!important}
+.shot .ph.dragging{box-shadow:none!important;filter:none!important}
 .shot .ph>img{filter:none}
 .shot .ph::before,.shot .ph::after{content:none;display:none}
 @media(max-width:900px){.hero{padding-bottom:0}}
