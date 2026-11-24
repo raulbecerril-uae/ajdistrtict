@@ -355,7 +355,7 @@ footer small{display:inline;margin:0;opacity:.65}
 .locinfo .lacts{display:grid;gap:8px;margin-top:auto}
 .locinfo .btn{width:100%}
 .locinfo .btn.sd{background:#F3ECE0}
-.spons .sub{max-width:58ch}
+.spons .sub, .spons .sub.mut{color:var(--on)!important;opacity:.92;max-width:58ch}
 .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
 .tier{background:var(--panel2);border-radius:var(--r);padding:26px;display:flex;flex-direction:column;gap:12px}
 .tier>i{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:1.9rem;background:var(--acc);color:var(--acc-on)}
