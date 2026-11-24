@@ -1,4 +1,4 @@
-﻿# build_dist.ps1 — builds a clean production dist/ folder for FTP upload
+# build_dist.ps1 — builds a clean production dist/ folder for FTP upload
 # Usage: powershell -ExecutionPolicy Bypass -File tools\build_dist.ps1
 
 $root = Split-Path $PSScriptRoot -Parent
