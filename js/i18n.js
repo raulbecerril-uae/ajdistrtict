@@ -132,7 +132,7 @@ function tkBuild(){if(!TR)return;const it=items();lastTxt=it.map(x=>x.t).join('|
  TR.parentElement.style.height=H+'px';
  TR.innerHTML='<div class="tkg">'+one+'</div>';const gw0=TR.firstElementChild.getBoundingClientRect().width||600;
  const k=Math.max(1,Math.ceil(innerWidth*1.1/gw0)),g=one.repeat(k);TR.innerHTML='<div class="tkg">'+g+'</div><div class="tkg">'+g+'</div>';
- const w0=TR.firstElementChild.getBoundingClientRect().width,P=Math.ceil(w0/LAM)*LAM;TR.querySelectorAll('.tkg').forEach(q=>q.style.paddingRight=(P-w0)+'px');gw=P;x=0;
+ const w0=TR.firstElementChild.getBoundingClientRect().width;const periods=Math.max(2,Math.round(w0/LAM));LAM=w0/periods;gw=w0;x=0;
  let d='';for(let X=-20;X<=innerWidth+20;X+=8)d+=(d?'L':'M')+X+' '+(H/2+AMP*Math.sin(2*Math.PI*X/LAM)).toFixed(1);
  if(sv)sv.innerHTML='<path d="'+d+'" fill="none" stroke="var(--acc)" stroke-width="'+BH+'" stroke-linejoin="round"/>';
  els=[...TR.querySelectorAll('.tkw,i')].map(e=>[e,e.offsetLeft+e.offsetWidth/2]);start()}
