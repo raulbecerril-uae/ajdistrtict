@@ -68,8 +68,15 @@ function cms_redirect(string $path): never { header('Location: ' . $path, true, 
 function cms_flash(string $message, string $type = 'success'): void { $_SESSION['flash'] = ['message'=>$message,'type'=>$type]; }
 function cms_take_flash(): ?array { $flash = $_SESSION['flash'] ?? null; unset($_SESSION['flash']); return is_array($flash) ? $flash : null; }
 function cms_path(): string {
-    $uriPath = parse_url((string)($_SERVER['REQUEST_URI'] ?? '/'), PHP_URL_PATH);
-    $path = '/' . trim(is_string($uriPath) ? $uriPath : '/', '/');
+    $uriPath = (string)parse_url((string)($_SERVER['REQUEST_URI'] ?? '/'), PHP_URL_PATH);
+    $scriptDir = rtrim(str_replace('\\', '/', dirname((string)($_SERVER['SCRIPT_NAME'] ?? ''))), '/');
+    if ($scriptDir !== '' && $scriptDir !== '/' && str_starts_with($uriPath, $scriptDir)) {
+        $uriPath = substr($uriPath, strlen($scriptDir));
+    }
+    if (str_starts_with($uriPath, '/index.php')) {
+        $uriPath = substr($uriPath, strlen('/index.php'));
+    }
+    $path = '/' . trim($uriPath, '/');
     return $path === '//' ? '/' : $path;
 }
 function cms_is_local_request(): bool {

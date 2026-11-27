@@ -28,7 +28,7 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
 header('X-Frame-Options: SAMEORIGIN');
 
 $path = cms_path();
-if ($path === '/index.php') cms_redirect('/');
+if ($path === '/index.php') $path = '/';
 
 // ---------------------------------------------------------------- uploaded media
 if (preg_match('~^/media/([^/]+)$~', $path, $match)) {
@@ -44,8 +44,13 @@ if (preg_match('~^/media/([^/]+)$~', $path, $match)) {
 
 // ---------------------------------------------------------------- public site
 if (!str_starts_with($path, '/admin')) {
-    if (!in_array($path, ['/', '/terms', '/receipt'], true)) { http_response_code(404); exit('الصفحة غير موجودة'); }
-    $publicRoute = $path === '/terms' ? 'terms' : ($path === '/receipt' ? 'receipt' : '');
+    $cleanPath = rtrim($path, '/');
+    if ($cleanPath === '') $cleanPath = '/';
+    if (!in_array($cleanPath, ['/', '/terms', '/receipt', '/index.php'], true)) {
+        http_response_code(404);
+        exit('الصفحة غير موجودة');
+    }
+    $publicRoute = $cleanPath === '/terms' ? 'terms' : ($cleanPath === '/receipt' ? 'receipt' : '');
     $html = cms_public_template();
     $site = cms_site();
     $activeTheme = $site['appearance']['theme'] ?? 'gulf';

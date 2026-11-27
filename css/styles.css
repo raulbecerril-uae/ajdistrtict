@@ -915,9 +915,9 @@ section h2::before,footer .fcta h2::before{display:none!important}
 .tki.t-serif-italic-gold{font-family:var(--serif);font-style:italic;font-weight:600;color:var(--acc-on);font-size:clamp(1.12rem,2.2vw,1.5rem)}
 .tki.t-script{font-family:var(--serif);font-weight:400;font-style:italic;letter-spacing:.03em;font-size:clamp(1.08rem,2vw,1.42rem);color:var(--acc-on)}
 
-.tkg i{width:54px;height:54px;flex:none;display:inline-flex;align-items:center;justify-content:center;margin:0 12px;background:none!important;border:none!important;box-shadow:none!important;filter:none!important;transform-origin:center center}
-.tkg i img{width:auto;height:52px;max-height:52px;max-width:54px;object-fit:contain;display:block;background:none!important;border:none!important;box-shadow:none!important;filter:none!important}
-@media(max-width:600px){.tkv{padding:11px 0}.tki{font-size:.95rem;padding:0 5px}.tkg i{width:40px;height:40px;margin:0 8px}.tkg i img{height:38px;max-height:38px;max-width:40px}}
+.tkg i{width:68px;height:68px;flex:none;display:inline-flex;align-items:center;justify-content:center;margin:0 10px;background:none!important;border:none!important;box-shadow:none!important;filter:none!important;transform-origin:center center}
+.tkg i img{width:auto;height:64px;max-height:64px;max-width:68px;object-fit:contain;display:block;background:none!important;border:none!important;box-shadow:none!important;filter:none!important}
+@media(max-width:600px){.tkv{padding:11px 0}.tki{font-size:.95rem;padding:0 5px}.tkg i{width:48px;height:48px;margin:0 6px}.tkg i img{height:46px;max-height:46px;max-width:48px}}
 @media(prefers-reduced-motion:reduce){.tkv{-webkit-mask:none;mask:none}.tkt{width:auto;justify-content:center;transform:none!important}.tkg{flex-wrap:wrap;justify-content:center}.tkg+.tkg{display:none}}
 /* language button */
 .langb{border:0;cursor:pointer;border-radius:99px;padding:7px 14px;font:600 13.5px var(--sans);color:inherit;background:none;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--on) 28%,transparent);transition:background .25s,color .25s}

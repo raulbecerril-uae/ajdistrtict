@@ -128,7 +128,7 @@ function tkBuild(){if(!TR)return;const it=items();lastTxt=it.map(x=>x.t).join('|
  const one=it.map((item,idx)=>{const sep=SEPS[idx%SEPS.length];return '<span class="tki '+item.typo+'" data-notr>'+units(item.t)+'</span><i aria-hidden="true"><img src="'+sep+'" alt=""></i>'}).join('');els=[];
  const sv=document.getElementById('tkb');
  if(reduce.matches){TR.innerHTML='<div class="tkg">'+one+'</div>';if(sv)sv.innerHTML='';return}
- const m=innerWidth<600;AMP=m?11:18;BH=m?40:52;LAM=Math.max(340,Math.round(innerWidth/2.3));const H=2*AMP+BH+10;
+ const m=innerWidth<600;AMP=m?11:18;BH=m?44:56;LAM=Math.max(340,Math.round(innerWidth/2.3));const H=2*AMP+BH+16;
  TR.parentElement.style.height=H+'px';
  TR.innerHTML='<div class="tkg">'+one+'</div>';const gw0=TR.firstElementChild.getBoundingClientRect().width||600;
  const k=Math.max(1,Math.ceil(innerWidth*1.1/gw0)),g=one.repeat(k);TR.innerHTML='<div class="tkg">'+g+'</div><div class="tkg">'+g+'</div>';
